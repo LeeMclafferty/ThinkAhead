@@ -13,5 +13,11 @@ UCLASS()
 class THINKAHEAD_API AThinkAheadGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	AThinkAheadGameModeBase();
+
+private:
+
 	
 };

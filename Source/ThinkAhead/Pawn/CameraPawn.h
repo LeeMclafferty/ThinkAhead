@@ -15,9 +15,15 @@ public:
 	ACameraPawn();
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintPure)
+	class AControlledCube* GetPlayerCube() { return PlayersCube; }
+	void SetPlayerCube( AControlledCube* NewCube);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:	
 
@@ -28,5 +34,5 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* GameCamera;
 
-
+	class AControlledCube* PlayersCube;
 };

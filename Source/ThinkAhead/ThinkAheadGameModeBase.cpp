@@ -3,3 +3,7 @@
 
 #include "ThinkAheadGameModeBase.h"
 
+AThinkAheadGameModeBase::AThinkAheadGameModeBase()
+{
+
+}

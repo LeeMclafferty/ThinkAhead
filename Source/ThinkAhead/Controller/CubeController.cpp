@@ -3,7 +3,28 @@
 
 #include "ThinkAhead/Controller/CubeController.h"
 
-ACubeController::ACubeController()
-{
+#include "ThinkAhead/Widget/PlayerHud.h"
 
+ACubeController::ACubeController()
+	:PlayerHud(nullptr)
+{
+	bShowMouseCursor = true;
+	bEnableClickEvents = true;
+	DefaultClickTraceChannel = ECollisionChannel::ECC_EngineTraceChannel2;
+}
+
+void ACubeController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CreatePlayerHud();
+}
+
+void ACubeController::CreatePlayerHud()
+{
+	if (!PlayerHudClass)
+		return;
+
+	PlayerHud = CreateWidget<UPlayerHud>(this, PlayerHudClass);
+	PlayerHud->AddToViewport();
 }

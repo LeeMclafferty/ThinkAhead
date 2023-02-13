@@ -4,8 +4,12 @@
 #include "ThinkAhead/Pawn/CameraPawn.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "EnhancedInputComponent.h"
+
+#include "ThinkAhead/WorldActor/ControlledCube.h"
 
 ACameraPawn::ACameraPawn()
+	:PlayersCube(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -24,9 +28,15 @@ void ACameraPawn::BeginPlay()
 	
 }
 
+
 void ACameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ACameraPawn::SetPlayerCube(AControlledCube* NewCube)
+{
+	PlayersCube = NewCube;
 }
 

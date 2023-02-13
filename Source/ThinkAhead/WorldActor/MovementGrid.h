@@ -4,23 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ThinkAhead/WorldActor/GridTile.h"
 #include "MovementGrid.generated.h"
-
-USTRUCT(BlueprintType)
-struct FTileInfo 
-{
-	GENERATED_USTRUCT_BODY()
-
-	bool bisValidTile;
-	int32 Row;
-	int32 Column;
-
-	FTileInfo()
-		:bisValidTile(false), Row(0), Column(0)
-	{
-
-	}
-};
 
 UCLASS()
 class THINKAHEAD_API AMovementGrid : public AActor
@@ -29,13 +14,50 @@ class THINKAHEAD_API AMovementGrid : public AActor
 	
 public:	
 	AMovementGrid();
+	~AMovementGrid();
 	virtual void Tick(float DeltaTime) override;
+	virtual void OnConstruction(const FTransform& Transform) override;
+
+	void SetNumRows(int32 Rows) { NumRows = Rows; }
+	void SetNumColumns(int32 Columns) { NumColumns = Columns; }
+
+	UFUNCTION(BlueprintPure, Category="Getter")
+	TArray<class AGridTile*> GetTiles() { return Tiles; }
+
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	virtual void Destroyed() override;
 
-private:	
-	virtual void OnConstruction(const FTransform& Transform) override;
+	UPROPERTY(EditAnywhere, Category = "Grid|Generation")
+	int32 TileSize;
+	UPROPERTY(EditAnywhere, Category = "Grid|Generation")
+	int32 NumRows; // Height
+	UPROPERTY(EditAnywhere, Category = "Grid|Generation")
+	int32 NumColumns; // Width
+	UPROPERTY(EditAnywhere, Category = "Grid|Generation")
+	bool bGenerateNew;
+	UPROPERTY(EditAnywhere, Category = "Grid|Generation")
+	bool bClearGrid; 
 
-	class UProceduralMeshComponent* GridMesh;
+private:
+
+	UPROPERTY(VisibleAnywhere)
+	class USphereComponent* Orgin;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Grid|Initilization")
+	TSubclassOf<class AGridTile> TileClass;
+	UPROPERTY(SaveGame, VisibleAnywhere)
+	TArray<class AGridTile*> Tiles;
+	
+	void GenerateGrid();
+	void DestroyGrid();
+	void CreateNewGrid();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Grid|Initilization")
+	class UMaterialInterface* FirstMaterial;
+	UPROPERTY(EditDefaultsOnly, Category = "Grid|Initilization")
+	class UMaterialInterface* SecondMaterial;
+
 };

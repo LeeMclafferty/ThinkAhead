@@ -16,5 +16,14 @@ class THINKAHEAD_API ACubeController : public APlayerController
 
 public: 
 	ACubeController();
+
+	virtual void BeginPlay() override;
+
+protected:
+
+	void CreatePlayerHud();
+	UPROPERTY(EditDefaultsOnly, Category = "Initialize")
+	TSubclassOf<UUserWidget> PlayerHudClass;
+	class UPlayerHud* PlayerHud;
 	
 };
