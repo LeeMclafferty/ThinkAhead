@@ -16,8 +16,13 @@ ACubeController::ACubeController()
 void ACubeController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	CreatePlayerHud();
+
+	FInputModeUIOnly InputMode;
+	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	SetInputMode(InputMode);
+
 }
 
 void ACubeController::CreatePlayerHud()

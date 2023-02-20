@@ -15,6 +15,12 @@ class THINKAHEAD_API UPlayerHud : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	virtual bool Initialize() override;
+	virtual void NativeConstruct() override;
+
+
+protected:
+	class ACameraPawn* PlayerPawn;
+
+private:
 	
 };

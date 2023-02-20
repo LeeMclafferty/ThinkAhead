@@ -2,11 +2,57 @@
 
 
 #include "ThinkAhead/Widget/PlayerHud.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/Button.h"
 
-bool UPlayerHud::Initialize()
+#include "ThinkAhead/Pawn/CameraPawn.h"
+#include "ThinkAhead/WorldActor/ControlledCube.h"
+
+
+void UPlayerHud::NativeConstruct()
 {
-	bool InitSuccessful = Super::Initialize();
+	Super::NativeConstruct();
 
-
-	return InitSuccessful;
+	if (ACameraPawn* PP = Cast<ACameraPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0)))
+	{
+		PlayerPawn = PP;
+	}
 }
+
+// void UPlayerHud::MoveForward()
+// {
+// 	if (!PlayerPawn)
+// 		return;
+// 
+// 	UE_LOG(LogTemp, Error, TEXT("MopeForward"));\
+// 	PlayerPawn->GetPlayerCube()->CubeSpeed = 20;
+// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
+// }
+// 
+// void UPlayerHud::MoveBackward()
+// {
+// 	if (!PlayerPawn)
+// 		return;
+// 
+// 	PlayerPawn->GetPlayerCube()->CubeSpeed = -20;
+// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
+// }
+// 
+// void UPlayerHud::MoveLeft()
+// {
+// 	if (!PlayerPawn)
+// 		return;
+// 
+// 	PlayerPawn->GetPlayerCube()->CubeSpeed = -20;
+// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
+// }
+// 
+// void UPlayerHud::MoveRight()
+// {
+// 	if (!PlayerPawn)
+// 		return;
+// 
+// 	PlayerPawn->GetPlayerCube()->CubeSpeed = 20;
+// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
+
+ 
