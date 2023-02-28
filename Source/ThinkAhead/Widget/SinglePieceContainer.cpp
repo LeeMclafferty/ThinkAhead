@@ -8,27 +8,30 @@
 
 void USinglePieceContainer::NativeConstruct()
 {
-
+	
 }
 
 void USinglePieceContainer::HoldPiece(class UMovePiece* Held)
 {
-	if (!Held || !ContainingBorder)
+	if (!ContainingBorder)
 		return;
 
 	ContainingBorder->AddChild(Held);
-	HeldChild = Held;
+	bHasPiece = true;
 }
 
-class UMovePiece* USinglePieceContainer::GetHeldPiece()
+bool USinglePieceContainer::HasPiece()
 {
-	return HeldChild;
-}
-
-bool USinglePieceContainer::bHasPiece()
-{
-	if (HeldChild)
-		return true;
-
 	return false;
+}
+
+UMovePiece* USinglePieceContainer::GetHeldPiece()
+{
+	UMovePiece* HeldPiece = Cast<UMovePiece>(ContainingBorder->GetChildAt(0));
+
+	if (!HeldPiece)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GetHeldPiece() returned null"));
+	}
+	return HeldPiece;
 }

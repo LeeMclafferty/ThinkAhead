@@ -26,6 +26,7 @@ public:
 	virtual void NativeConstruct() override;
 	virtual bool NativeOnDrop(const FGeometry& InGeomtry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
+	UPanelWidget* GetMovesPanelBox() { return MovesPanelBox; }
 protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))

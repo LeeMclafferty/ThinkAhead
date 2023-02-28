@@ -9,8 +9,10 @@
 UENUM()
 enum class ECubeState : uint8
 {
+	ECS_None UMETA(DisplayName = "None"),
 	ECS_Idle UMETA(DisplayName = "Idle"),
-	ECS_Moving UMETA(DisplayName = "Moving")
+	ECS_MovingNorthSouth UMETA(DisplayName = "MovingNorthSouth"),
+	ECS_MoveingEastWest UMETA(DisplayName = "MovingEastWest")
 };
 
 UCLASS()
@@ -28,9 +30,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	float CubeSpeed;
+
+	TArray<class UMovePiece*> GetMovesToMake() { return MovesToMake; }
+	void AddMoveToMake(class UMovePiece* AddMove);
+	void SetCurrentMove(class UMovePiece* NewCurrent);
 protected:
 	virtual void BeginPlay() override;
-
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -40,8 +45,8 @@ private:
 	UPROPERTY(VisibleAnywhere, Category="Cube|Movement")
 	ECubeState CubeState;
 
-	void MoveForward();
-	void MoveRight();
+	void MoveNorth();
+	void MoveWest();
 	
 	UPROPERTY(VisibleAnywhere, Category="CubeMovement")
 	class AGridTile* CurrentTile;
@@ -49,4 +54,9 @@ private:
 
 	void CheckNextTile();
 
+	TArray<class UMovePiece*> MovesToMake;
+	class UMovePiece* CurrentMove;
+	int32 CurrentMoveIndex;
+
+	void CheckState();
 };

@@ -7,6 +7,7 @@
 #include "Blueprint/DragDropOperation.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/PanelWidget.h"
+#include "Components/Border.h"
 
 #include "ThinkAhead/Widget/MovePiece.h"
 #include "ThinkAhead/Widget/SinglePieceContainer.h"
@@ -44,18 +45,21 @@ bool UMovesContainer::NativeOnDrop(const FGeometry& InGeomtry, const FDragDropEv
 
 bool UMovesContainer::AddMovePiece(class UMovePiece* ToAdd)
 {
-	for (int i = 0; i < MovesPanelBox->GetChildrenCount() - 1; i++)
+	
+	
+	for (int i = 0; i < MovesPanelBox->GetChildrenCount(); i++)
 	{
 		USinglePieceContainer* CurrChild = Cast<USinglePieceContainer>(MovesPanelBox->GetChildAt(i));
 
 		if (!CurrChild)
 			return false;
 
-		if (!CurrChild->bHasPiece())
+		if (!CurrChild->bHasPiece)
 		{
 			CurrChild->HoldPiece(ToAdd);
 			return true;
 		}
+
 	}
 
 	return false;
@@ -67,7 +71,7 @@ void UMovesContainer::ConstructMoveFromContainer(class AThinkAheadGameModeBase* 
 		return;
 
 	ContainerSize = GameMode->GetNumMoveOptions();
-	UE_LOG(LogTemp, Warning, TEXT("Construct MoveFrom"));
+
 	if (PieceContatinerClass)
 	{
 		for (int32 i = 0; i < ContainerSize; i++)

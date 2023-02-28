@@ -8,7 +8,7 @@
 AThinkAheadGameModeBase::AThinkAheadGameModeBase()
 	:NumOfMovesToMake(4), NumMoveOptions(5)
 {
-	StaringPieces.SetNum(NumMoveOptions);
+
 }
 
 void AThinkAheadGameModeBase::BeginPlay()
@@ -21,12 +21,13 @@ void AThinkAheadGameModeBase::BeginPlay()
 
 void AThinkAheadGameModeBase::CreateStartingPieces()
 {
-	UMovePiece* Current;
+	UMovePiece* Current = nullptr;
 
 	for (auto PieceClass : StartingPieceClasses)
 	{
-		Current = CreateWidget<UMovePiece>(GetWorld(), PieceClass);
+		if(PieceClass)
+			Current = CreateWidget<UMovePiece>(GetWorld(), PieceClass);
 
-		StaringPieces.Add(Current);
+		StaringPieces.Emplace(Current);
 	}
 }

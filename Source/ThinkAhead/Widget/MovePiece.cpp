@@ -5,8 +5,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/DragDropOperation.h"
 #include "Input/Reply.h"
+#include "Components/PanelWidget.h"
 
 #include "ThinkAhead/Pawn/CameraPawn.h"
+#include "ThinkAhead/Widget/SinglePieceContainer.h"
 
 void UMovePiece::NativeConstruct()
 {
@@ -20,26 +22,21 @@ void UMovePiece::NativeConstruct()
 
 void UMovePiece::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
-	if (!PieceClass)
-		return;
 
-	SetVisibility(ESlateVisibility::Hidden);
-
-	// Can be passed as payload and used for visual. 
-	UMovePiece* DragPiece = CreateWidget<UMovePiece>(this, PieceClass);
+	USinglePieceContainer* Owner = Cast<USinglePieceContainer>(GetParent()->GetOuter()->GetOuter());
 
 	UDragDropOperation* DragDropOp = NewObject<UDragDropOperation>();
-
-	DragDropOp->Payload = DragPiece;
-	DragDropOp->DefaultDragVisual = DragPiece;
+	DragDropOp->Payload = this;
 	DragDropOp->Pivot = EDragPivot::MouseDown;
-
+	DragDropOp->DefaultDragVisual = this;
+	Owner->bHasPiece = false;
 	OutOperation = DragDropOp;
 }
 
 void UMovePiece::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
-	SetVisibility(ESlateVisibility::Visible);
+	USinglePieceContainer* Owner = Cast<USinglePieceContainer>(GetParent()->GetOuter()->GetOuter());
+	Owner->bHasPiece = true;
 }
 
 FReply UMovePiece::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -65,4 +62,10 @@ void UMovePiece::Move()
 			PlayerPawn = PP;
 		}
 	}
+}
+
+void UMovePiece::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+
 }

@@ -18,14 +18,12 @@ public:
 	virtual void NativeConstruct() override;
 
 	void HoldPiece(class UMovePiece* Held);
-
+	bool HasPiece();
 	class UMovePiece* GetHeldPiece();
-
-	bool bHasPiece();
-
+	
+	bool bHasPiece;
 protected:
+
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UBorder* ContainingBorder;
-
-	class UMovePiece* HeldChild;
 };

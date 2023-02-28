@@ -19,7 +19,7 @@ void UPlayerHud::NativeConstruct()
 	}
 }
 
-// void UPlayerHud::MoveForward()
+// void UPlayerHud::MoveNorth()
 // {
 // 	if (!PlayerPawn)
 // 		return;
@@ -29,7 +29,7 @@ void UPlayerHud::NativeConstruct()
 // 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
 // }
 // 
-// void UPlayerHud::MoveBackward()
+// void UPlayerHud::MoveSouth()
 // {
 // 	if (!PlayerPawn)
 // 		return;

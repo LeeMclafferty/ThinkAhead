@@ -24,13 +24,10 @@ public:
 	virtual void Move();
 
 protected:
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UImage* ActionImg;
-
-	UPROPERTY(EditDefaultsOnly, Category="Initilization")
-	TSubclassOf<UMovePiece> PieceClass;
-
 
 	class ACameraPawn* PlayerPawn;
 

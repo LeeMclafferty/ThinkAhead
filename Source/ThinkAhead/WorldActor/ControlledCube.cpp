@@ -7,9 +7,10 @@
 
 #include "ThinkAhead/WorldActor/GridTile.h"
 #include "ThinkAhead/WorldActor/Obstacle.h"
+#include "ThinkAhead/Widget/MovePiece.h"
 
 AControlledCube::AControlledCube()
-	:CubeSpeed(10.f), CubeState(ECubeState::ECS_Idle)
+	:CubeSpeed(10.f), CubeState(ECubeState::ECS_None), CurrentMoveIndex(0)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -26,25 +27,34 @@ void AControlledCube::Tick(float DeltaTime)
 
 	CheckNextTile();
 	SetCurrentTile();
-	if (CubeState == ECubeState::ECS_Moving)
-	{
-		MoveForward();
-	}
+	CheckState();
+}
+
+void AControlledCube::AddMoveToMake(class UMovePiece* AddMove)
+{
+	if (AddMove)
+		MovesToMake.Add(AddMove);
+}
+
+void AControlledCube::SetCurrentMove(class UMovePiece* NewCurrent)
+{
+	CurrentMove = NewCurrent;
 }
 
 void AControlledCube::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 // Need to make this just a Move function and be able to pass in a world direction
-void AControlledCube::MoveForward()
+void AControlledCube::MoveNorth()
 {
 	FVector Target = GetActorLocation() += FVector(0.f, CubeSpeed, 0.f);
 	SetActorLocation(FMath::Lerp(GetActorLocation(), Target, 1.f));
 }
 
-void AControlledCube::MoveRight()
+void AControlledCube::MoveWest()
 {
 	FVector Target = GetActorLocation() += FVector(CubeSpeed, 0.f, 0.f);
 	SetActorLocation(FMath::Lerp(GetActorLocation(), Target, 1.f));
@@ -86,6 +96,24 @@ void AControlledCube::CheckNextTile()
 		CubeState = ECubeState::ECS_Idle;
 		if(CurrentTile)
 			SetActorLocation(CurrentTile->GetTileCenter());
+	}
+}
+
+void AControlledCube::CheckState()
+{
+	if (CubeState == ECubeState::ECS_Idle)
+	{
+		CurrentMoveIndex++;
+		CurrentMove = MovesToMake[CurrentMoveIndex];
+		CurrentMove->Move();
+	}
+	else if (CubeState == ECubeState::ECS_MovingNorthSouth)
+	{
+		MoveNorth();
+	}
+	else if (CubeState == ECubeState::ECS_MoveingEastWest)
+	{
+		MoveWest();
 	}
 }
 
