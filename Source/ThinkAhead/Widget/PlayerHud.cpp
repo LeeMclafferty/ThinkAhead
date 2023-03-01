@@ -7,6 +7,8 @@
 
 #include "ThinkAhead/Pawn/CameraPawn.h"
 #include "ThinkAhead/WorldActor/ControlledCube.h"
+#include "ThinkAhead/Widget/MovesContainer.h"
+#include "ThinkAhead/Widget/MoveToContainer.h"
 
 
 void UPlayerHud::NativeConstruct()
@@ -17,42 +19,9 @@ void UPlayerHud::NativeConstruct()
 	{
 		PlayerPawn = PP;
 	}
+
+	ExecuteButton = MoveToPanel->GetExecuteButton();
 }
 
-// void UPlayerHud::MoveNorth()
-// {
-// 	if (!PlayerPawn)
-// 		return;
-// 
-// 	UE_LOG(LogTemp, Error, TEXT("MopeForward"));\
-// 	PlayerPawn->GetPlayerCube()->CubeSpeed = 20;
-// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
-// }
-// 
-// void UPlayerHud::MoveSouth()
-// {
-// 	if (!PlayerPawn)
-// 		return;
-// 
-// 	PlayerPawn->GetPlayerCube()->CubeSpeed = -20;
-// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
-// }
-// 
-// void UPlayerHud::MoveLeft()
-// {
-// 	if (!PlayerPawn)
-// 		return;
-// 
-// 	PlayerPawn->GetPlayerCube()->CubeSpeed = -20;
-// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
-// }
-// 
-// void UPlayerHud::MoveRight()
-// {
-// 	if (!PlayerPawn)
-// 		return;
-// 
-// 	PlayerPawn->GetPlayerCube()->CubeSpeed = 20;
-// 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_Moving);
 
  

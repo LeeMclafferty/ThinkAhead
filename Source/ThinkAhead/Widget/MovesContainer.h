@@ -40,12 +40,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Initialize|TSubclassOf")
 	TSubclassOf<class USinglePieceContainer> PieceContatinerClass;
 
-private:
 	UPROPERTY(EditDefaultsOnly, Category="Initialize")
 	EContainerType ContainerType;
 
 	bool AddMovePiece(class UMovePiece* ToAdd);
 
+private:
 	void ConstructMoveFromContainer(class AThinkAheadGameModeBase* GameMode);
 	void ConstructMoveToContainer(class AThinkAheadGameModeBase* GameMode);
 };

@@ -23,6 +23,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="CubeControl")
 	virtual void Move();
 
+	bool HasActivated();
+
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
@@ -30,5 +32,10 @@ protected:
 	class UImage* ActionImg;
 
 	class ACameraPawn* PlayerPawn;
+	class AControlledCube* PlayerCube;
 
+	bool bHasActivated;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Speed;
 };

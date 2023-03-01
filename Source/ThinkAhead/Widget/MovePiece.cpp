@@ -9,6 +9,7 @@
 
 #include "ThinkAhead/Pawn/CameraPawn.h"
 #include "ThinkAhead/Widget/SinglePieceContainer.h"
+#include "ThinkAhead/WorldActor/ControlledCube.h"
 
 void UMovePiece::NativeConstruct()
 {
@@ -18,6 +19,9 @@ void UMovePiece::NativeConstruct()
 	{
 		PlayerPawn = PP;
 	}
+	bHasActivated = false;
+
+	
 }
 
 void UMovePiece::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
@@ -60,8 +64,19 @@ void UMovePiece::Move()
 		if (PP->GetPlayerCube())
 		{
 			PlayerPawn = PP;
+			bHasActivated = true;
 		}
 	}
+	if (AControlledCube* CC = Cast<AControlledCube>(PlayerPawn->GetPlayerCube()))
+	{
+		PlayerCube = CC;
+	}
+	Speed = 10.f;
+}
+
+bool UMovePiece::HasActivated()
+{
+	return bHasActivated;
 }
 
 void UMovePiece::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

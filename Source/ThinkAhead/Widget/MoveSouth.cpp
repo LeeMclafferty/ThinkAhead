@@ -15,9 +15,11 @@ void UMoveSouth::Move()
 {
 	Super::Move();
 
-	if (!PlayerPawn)
+	if (!PlayerPawn || !PlayerCube)
 		return;
 
-	PlayerPawn->GetPlayerCube()->CubeSpeed = -20;
+	PlayerPawn->GetPlayerCube()->LookSouth();
+
+	PlayerPawn->GetPlayerCube()->CubeSpeed = Speed * -1;
 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_MovingNorthSouth);
 }

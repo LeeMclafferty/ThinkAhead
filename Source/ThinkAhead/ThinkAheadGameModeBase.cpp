@@ -15,7 +15,6 @@ void AThinkAheadGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("GM BeginPlay"));
 	CreateStartingPieces();
 }
 

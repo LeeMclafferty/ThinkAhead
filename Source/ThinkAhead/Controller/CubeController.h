@@ -18,6 +18,9 @@ public:
 	ACubeController();
 
 	virtual void BeginPlay() override;
+	class UExecuteMoves* GetExecuteButton() { return ExecuteButton; }
+
+	void SetControlledCube(class AControlledCube* NewCube);
 
 protected:
 
@@ -25,5 +28,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Initialize")
 	TSubclassOf<UUserWidget> PlayerHudClass;
 	class UPlayerHud* PlayerHud;
+
+private:
+	class UExecuteMoves* ExecuteButton;
+	class AControlledCube* ControlledCube;
 	
 };

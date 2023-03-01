@@ -34,10 +34,25 @@ public:
 	TArray<class UMovePiece*> GetMovesToMake() { return MovesToMake; }
 	void AddMoveToMake(class UMovePiece* AddMove);
 	void SetCurrentMove(class UMovePiece* NewCurrent);
+
+	UFUNCTION()
+	void CheckState();
+	UFUNCTION()
+	void StartGame() { bIsGameStarted = true; }
+
+	void LookNorth();
+	void LookWest();
+	void LookSouth();
+	void LookEast();
+
+	FVector TraceCheckDir;
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	class ACubeController* CubeController;
 	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* CubeMesh;
 	UPROPERTY(VisibleAnywhere)
@@ -52,11 +67,13 @@ private:
 	class AGridTile* CurrentTile;
 	void SetCurrentTile();
 
+	int32 CheckReach;
 	void CheckNextTile();
+	FVector SetTraceEndLocation();
 
 	TArray<class UMovePiece*> MovesToMake;
 	class UMovePiece* CurrentMove;
-	int32 CurrentMoveIndex;
 
-	void CheckState();
+	bool bIsGameStarted;
+
 };

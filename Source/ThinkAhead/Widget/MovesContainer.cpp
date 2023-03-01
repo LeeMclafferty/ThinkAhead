@@ -46,7 +46,6 @@ bool UMovesContainer::NativeOnDrop(const FGeometry& InGeomtry, const FDragDropEv
 bool UMovesContainer::AddMovePiece(class UMovePiece* ToAdd)
 {
 	
-	
 	for (int i = 0; i < MovesPanelBox->GetChildrenCount(); i++)
 	{
 		USinglePieceContainer* CurrChild = Cast<USinglePieceContainer>(MovesPanelBox->GetChildAt(i));

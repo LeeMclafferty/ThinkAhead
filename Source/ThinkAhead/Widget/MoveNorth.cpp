@@ -10,17 +10,18 @@
 void UMoveNorth::NativeConstruct()
 {
 	Super::NativeConstruct();
-
 }
 
 void UMoveNorth::Move()
 {
 	Super::Move();
 
-	if (!PlayerPawn)
+	if (!PlayerPawn || !PlayerCube)
 		return;
 
-	PlayerPawn->GetPlayerCube()->CubeSpeed = 20;
+	PlayerPawn->GetPlayerCube()->LookNorth();
+
+	PlayerPawn->GetPlayerCube()->CubeSpeed = Speed;
 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_MovingNorthSouth);
 
 }

@@ -6,9 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "ExecuteMoves.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnExecute);
+
 UCLASS()
 class THINKAHEAD_API UExecuteMoves : public UUserWidget
 {
@@ -20,6 +19,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Execute();
+
+	UPROPERTY()
+	FOnExecute OnExecute;
 
 private:
 

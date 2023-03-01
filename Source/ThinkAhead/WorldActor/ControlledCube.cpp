@@ -4,13 +4,16 @@
 #include "ThinkAhead/WorldActor/ControlledCube.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "ThinkAhead/WorldActor/GridTile.h"
 #include "ThinkAhead/WorldActor/Obstacle.h"
 #include "ThinkAhead/Widget/MovePiece.h"
+#include "ThinkAhead/Controller/CubeController.h"
+#include "ThinkAhead/Widget/ExecuteMoves.h"
 
 AControlledCube::AControlledCube()
-	:CubeSpeed(10.f), CubeState(ECubeState::ECS_None), CurrentMoveIndex(0)
+	:CubeSpeed(10.f), CubeState(ECubeState::ECS_None), CheckReach(100.f), bIsGameStarted(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -25,9 +28,17 @@ void AControlledCube::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	CheckNextTile();
-	SetCurrentTile();
-	CheckState();
+	UE_LOG(LogTemp, Warning, TEXT("CubeSpeed: %f"), CubeSpeed);
+
+	if (bIsGameStarted)
+	{
+		if (CubeState != ECubeState::ECS_Idle)
+		{
+			SetCurrentTile();
+			CheckNextTile();
+		}
+		CheckState();
+	}
 }
 
 void AControlledCube::AddMoveToMake(class UMovePiece* AddMove)
@@ -45,6 +56,12 @@ void AControlledCube::BeginPlay()
 {
 	Super::BeginPlay();
 
+	CubeController = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	
+	if (CubeController)
+	{
+		CubeController->SetControlledCube(this);
+	}
 }
 
 // Need to make this just a Move function and be able to pass in a world direction
@@ -82,13 +99,14 @@ void AControlledCube::SetCurrentTile()
 
 void AControlledCube::CheckNextTile()
 {
+
 	FVector StartLocation = FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 50.f);
-	FVector EndLocation = FVector(GetActorLocation().X, GetActorLocation().Y + 100.f, GetActorLocation().Z + 50.f);
+	FVector EndLocation = SetTraceEndLocation();
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	FHitResult OutHit;
 
-	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, .2f, 0, 5.f);
 	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, ECC_GameTraceChannel1, Params);
 
 	if (auto Obstacle = Cast<AObstacle>(OutHit.GetActor()))
@@ -99,13 +117,60 @@ void AControlledCube::CheckNextTile()
 	}
 }
 
+FVector AControlledCube::SetTraceEndLocation()
+{
+	if (CubeState == ECubeState::ECS_MovingNorthSouth)
+	{
+		if (FMath::Sign(CubeSpeed) == 1)
+		{
+			return FVector(GetActorLocation().X, GetActorLocation().Y + 100.f, GetActorLocation().Z + 50.f);
+		}
+		else
+		{
+			return FVector(GetActorLocation().X, GetActorLocation().Y - CheckReach, GetActorLocation().Z + 50.f);
+		}
+	}
+	else if (CubeState == ECubeState::ECS_MoveingEastWest)
+	{
+		if (FMath::Sign(CubeSpeed) == 1)
+		{
+			return FVector(GetActorLocation().X + CheckReach, GetActorLocation().Y, GetActorLocation().Z + 50.f);
+		}
+		else
+		{
+			return FVector(GetActorLocation().X - CheckReach, GetActorLocation().Y, GetActorLocation().Z + 50.f);
+		}
+	}
+
+	return FVector::ZeroVector;
+}
+
 void AControlledCube::CheckState()
 {
-	if (CubeState == ECubeState::ECS_Idle)
+	if (!CubeController)
 	{
-		CurrentMoveIndex++;
-		CurrentMove = MovesToMake[CurrentMoveIndex];
-		CurrentMove->Move();
+		CubeController = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		CubeController->SetControlledCube(this);
+	}
+
+	if (CubeState == ECubeState::ECS_None)
+	{
+		MovesToMake[0]->Move();
+	}
+	else if (CubeState == ECubeState::ECS_Idle)
+	{
+		for (auto Move : MovesToMake)
+		{
+			if (Move->HasActivated())
+			{
+				continue;
+			}
+			else
+			{
+				Move->Move();
+				break;
+			}
+		}
 	}
 	else if (CubeState == ECubeState::ECS_MovingNorthSouth)
 	{
@@ -115,5 +180,34 @@ void AControlledCube::CheckState()
 	{
 		MoveWest();
 	}
+
+}
+
+void AControlledCube::LookNorth()
+{
+	FRotator CurrentRotation = GetActorRotation();
+	CurrentRotation.Yaw = 0.f;
+	SetActorRotation(CurrentRotation);
+}
+
+void AControlledCube::LookWest()
+{
+	FRotator CurrentRotation = GetActorRotation();
+	CurrentRotation.Yaw = -90.f;
+	SetActorRotation(CurrentRotation);
+}
+
+void AControlledCube::LookSouth()
+{
+	FRotator CurrentRotation = GetActorRotation();
+	CurrentRotation.Yaw = 180.f;
+	SetActorRotation(CurrentRotation);
+}
+
+void AControlledCube::LookEast()
+{
+	FRotator CurrentRotation = GetActorRotation();
+	CurrentRotation.Yaw = 90.f;
+	SetActorRotation(CurrentRotation);
 }
 

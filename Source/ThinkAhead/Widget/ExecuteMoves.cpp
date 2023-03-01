@@ -49,4 +49,7 @@ void UExecuteMoves::Execute()
 
 		PlayerPawn->GetPlayerCube()->SetCurrentMove(PlayerPawn->GetPlayerCube()->GetMovesToMake()[0]);
 	}
+
+	OnExecute.Broadcast();
+
 }

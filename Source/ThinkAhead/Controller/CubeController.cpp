@@ -4,6 +4,8 @@
 #include "ThinkAhead/Controller/CubeController.h"
 
 #include "ThinkAhead/Widget/PlayerHud.h"
+#include "ThinkAhead/Widget/ExecuteMoves.h"
+#include "ThinkAhead/WorldActor/ControlledCube.h"
 
 ACubeController::ACubeController()
 	:PlayerHud(nullptr)
@@ -23,6 +25,19 @@ void ACubeController::BeginPlay()
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	SetInputMode(InputMode);
 
+	if (PlayerHud)
+	{
+		ExecuteButton = PlayerHud->GetExecuteButton();
+	}
+
+	if(ControlledCube)
+		ExecuteButton->OnExecute.AddDynamic(ControlledCube, &AControlledCube::StartGame);
+
+}
+
+void ACubeController::SetControlledCube(AControlledCube* NewCube)
+{
+	ControlledCube = NewCube;
 }
 
 void ACubeController::CreatePlayerHud()

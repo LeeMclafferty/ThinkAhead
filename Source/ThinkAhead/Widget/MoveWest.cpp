@@ -15,10 +15,12 @@ void UMoveWest::Move()
 {
 	Super::Move();
 
-	if (!PlayerPawn)
+	if (!PlayerPawn || !PlayerCube)
 		return;
 
-	PlayerPawn->GetPlayerCube()->CubeSpeed = 20;
+	PlayerPawn->GetPlayerCube()->LookWest();
+
+	PlayerPawn->GetPlayerCube()->CubeSpeed = Speed;
 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_MoveingEastWest);
 }
 
