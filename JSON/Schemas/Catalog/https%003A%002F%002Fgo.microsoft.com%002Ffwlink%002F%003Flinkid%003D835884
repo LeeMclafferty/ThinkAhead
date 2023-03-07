@@ -165,6 +165,12 @@
       ]
     },
     {
+      "name": "Ansible Rulebook",
+      "description": "Ansible rulebook files",
+      "url": "https://raw.githubusercontent.com/ansible/ansible-rulebook/main/ansible_rulebook/schema/ruleset_schema.json",
+      "fileMatch": ["**/rulebooks/*.yml", "**/rulebooks/*.yaml"]
+    },
+    {
       "name": "Ansible Inventory",
       "description": "Ansible inventory files",
       "url": "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/inventory.json",
@@ -3086,6 +3092,12 @@
       "url": "https://json.schemastore.org/sourcemap-v3.json"
     },
     {
+      "name": "Sourcery",
+      "description": "Sourcery YAML Schema",
+      "fileMatch": [".sourcery.yaml"],
+      "url": "https://json.schemastore.org/sourcery_yaml_schema.json"
+    },
+    {
       "name": "SpecIF",
       "description": "The Specification Integration Facility (SpecIF) integrates partial system models from different methods and tools in a semantic net. See https://specif.de and https://github.com/GfSE.",
       "url": "https://json.schemastore.org/specif-1.1.json",
@@ -4589,9 +4601,10 @@
       "name": "Pantsbuild",
       "description": "Pantsbuild configuration file",
       "fileMatch": ["pants*.toml"],
-      "url": "https://json.schemastore.org/pantsbuild-2.14.0.json",
+      "url": "https://json.schemastore.org/pantsbuild-2.15.0.json",
       "versions": {
-        "2.14.0": "https://json.schemastore.org/pantsbuild-2.14.0.json"
+        "2.14.0": "https://json.schemastore.org/pantsbuild-2.14.0.json",
+        "2.15.0": "https://json.schemastore.org/pantsbuild-2.15.0.json"
       }
     },
     {

@@ -5,6 +5,7 @@
 
 #include "ThinkAhead/Pawn/CameraPawn.h"
 #include "ThinkAhead/WorldActor/ControlledCube.h"
+#include "ThinkAhead/ActorComponet/SimpleMovement.h"
 
 void UMoveWest::NativeConstruct()
 {
@@ -18,9 +19,9 @@ void UMoveWest::Move()
 	if (!PlayerPawn || !PlayerCube)
 		return;
 
-	PlayerPawn->GetPlayerCube()->LookWest();
+	PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->LookWest();
 
-	PlayerPawn->GetPlayerCube()->CubeSpeed = Speed;
+	PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->SetMoveSpeed(Speed);
 	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_MoveingEastWest);
 }
 

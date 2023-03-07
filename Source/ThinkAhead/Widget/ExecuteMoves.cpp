@@ -10,6 +10,7 @@
 #include "ThinkAhead/Widget/MovePiece.h"
 #include "ThinkAhead/WorldActor/ControlledCube.h"
 #include "ThinkAhead/Pawn/CameraPawn.h"
+#include "ThinkAhead/ActorComponet/SimpleMovement.h"
 
 void UExecuteMoves::NativeConstruct()
 {
@@ -44,10 +45,10 @@ void UExecuteMoves::Execute()
 
 		if (PlayerPawn->GetPlayerCube())
 		{
-			PlayerPawn->GetPlayerCube()->AddMoveToMake(CurrentMove);
+			PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->AddMoveToMake(CurrentMove);
 		}
 
-		PlayerPawn->GetPlayerCube()->SetCurrentMove(PlayerPawn->GetPlayerCube()->GetMovesToMake()[0]);
+		PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->SetCurrentMove(PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->GetMovesToMake()[0]);
 	}
 
 	OnExecute.Broadcast();
