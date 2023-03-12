@@ -22,15 +22,28 @@ public:
 
 	void SetControlledCube(class AControlledCube* NewCube);
 
+	void CreateLoseScreen();
+	void CreateWinScreen();
+
 protected:
 
 	void CreatePlayerHud();
 	UPROPERTY(EditDefaultsOnly, Category = "Initialize")
 	TSubclassOf<UUserWidget> PlayerHudClass;
 	class UPlayerHud* PlayerHud;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Initialize")
+	TSubclassOf<UUserWidget> LoseScreenClass;
+	class ULoseScreen* LoseScreen;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Initialize")
+	TSubclassOf<UUserWidget> WinScreenClass;
+	class UWinScreen* WinScreen;
 
 private:
 	class UExecuteMoves* ExecuteButton;
 	class AControlledCube* ControlledCube;
+
+	void ClearViewPort();
 	
 };

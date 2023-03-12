@@ -30,6 +30,10 @@ public:
 	ECubeState GetCubeState();
 	void SetCubeState(ECubeState NewState);
 
+	class AGridTile* GetCurrentTile() { return CurrentTile; }
+
+	bool IsGameStarted() { return bIsGameStarted; }
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,13 +49,16 @@ private:
 	class AGridTile* CurrentTile;
 	void SetCurrentTile();
 
-	int32 CheckReach;
-	void CheckNextTile();
-	FVector SetTraceEndLocation();
+	FHitResult TraceUnderCube(ECollisionChannel TraceChannel);
 
-	bool bIsGameStarted;
+	FHitResult TraceInFrontCube(ECollisionChannel TraceChannel);
+
+	int32 CheckReach;
+	void CheckForObstacle();
+	FVector SetTraceEndDirection();
 	
 	class USimpleMovement* SimpleMovementComponent;
 	class UStateManager* StateManager;
 
+	bool bIsGameStarted;
 };

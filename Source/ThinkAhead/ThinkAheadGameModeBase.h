@@ -23,6 +23,10 @@ public:
 	int32 GetNumMoveOptions() { return NumMoveOptions; }
 	UFUNCTION(BlueprintPure)
 	TArray<class UMovePiece*> GetStartingPieces() { return StaringPieces; }
+	UFUNCTION(BlueprintPure)
+	FName GetLevelName() { return LevelName;}
+	UFUNCTION(BlueprintPure)
+	FName GetNextLevelName() { return NextLevelName; }
 
 protected:
 
@@ -41,6 +45,10 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TArray<class UMovePiece*> StaringPieces;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Initialization")
+	FName LevelName;
+	UPROPERTY(EditDefaultsOnly, Category = "Initialization")
+	FName NextLevelName;
 private:
 	void CreateStartingPieces();
 	

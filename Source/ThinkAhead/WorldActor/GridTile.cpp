@@ -11,6 +11,8 @@
 #include "ThinkAhead/WorldActor/ControlledCube.h"
 #include "ThinkAhead/Pawn/CameraPawn.h"
 #include "ThinkAhead/WorldActor/StopCube.h"
+#include "ThinkAhead/WorldActor/KillSpace.h"
+#include "ThinkAhead/WorldActor/LevelWin.h"
 
 // Sets default values
 AGridTile::AGridTile()
@@ -47,6 +49,7 @@ void AGridTile::OnConstruction(const FTransform& Transform)
  	Triangles = TrisBuffer;
 
 	TileMesh->CreateMeshSection_LinearColor(0, Verticies, Triangles, Normals, Uvs, VertexColors, Tangents, true);
+	//GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Purple, TEXT("TileConstruct"));
 }
 
 void AGridTile::BeginPlay()
@@ -55,7 +58,6 @@ void AGridTile::BeginPlay()
 
 	SetPlayerPawnRef();
 	HandleSpawning();
-
 }
 
 // Called every frame
@@ -93,6 +95,12 @@ void AGridTile::SetTileColor(class UMaterialInterface* Material)
 	}
 }
 
+void AGridTile::DestroyTile()
+{
+	Destroy();
+	ClearTileActor();
+}
+
 void AGridTile::GenerateTileVerts(TArray<FVector>& Verts)
 {
 	Verts.Add(FVector(0, 0, 0));
@@ -121,17 +129,27 @@ void AGridTile::HandleSpawning()
 {
 	switch (TileType) 
 	{
+		case ETileType::ETT_None:
+			ClearTileActor();
+			break;
 		case ETileType::ETT_Start:
-			SpawnPlayersCube();
+			SpawnPlayerCube();
 			break;
 		case ETileType::ETT_StopCube:
-			SpawnStopCube();
+			SpawnActor(StopCubeClass);
+			break;
+		case ETileType::ETT_KillTile:
+			SpawnActor(KillTileClass);
+			break;
+		case ETileType::ETT_WinTile:
+			SpawnActor(WinLevelClass);
+			break;
 		default:
 			break;
 	}
 }
 
-void AGridTile::SpawnPlayersCube()
+void AGridTile::SpawnPlayerCube()
 {
 	FVector Location = GetTileCenter();
 	FRotator Rotation = FRotator::ZeroRotator;
@@ -145,18 +163,17 @@ void AGridTile::SpawnPlayersCube()
 	{
 		PlayerPawn->SetPlayerCube(PlayerCube);
 	}
+
+	TileSpawnedActor = PlayerCube;
 }
 
-void AGridTile::SpawnStopCube()
+void AGridTile::ClearTileActor()
 {
-	FVector Location = GetTileCenter();
-	FRotator Rotation = FRotator::ZeroRotator;
-	FVector Scale = FVector::OneVector;
-	FTransform SpawnTransform = FTransform(Rotation, Location, Scale);
-	FActorSpawnParameters SpawnParams;	
-	SpawnParams.Owner = this;
-
-	auto ObstacleCube = GetWorld()->SpawnActor<AStopCube>(StopCubeClass, SpawnTransform, SpawnParams);
+	if (TileSpawnedActor)
+	{
+		TileSpawnedActor->Destroy();
+		TileSpawnedActor = nullptr;
+	}
 }
 
 void AGridTile::SetPlayerPawnRef()
@@ -165,5 +182,20 @@ void AGridTile::SetPlayerPawnRef()
 	{
 		PlayerPawn = Player;
 	}
+}
+
+void AGridTile::SpawnActor(TSubclassOf<AActor> ActorClass)
+{
+	if (!ActorClass)
+		return;
+
+	FVector Location = GetTileCenter();
+	FRotator Rotation = FRotator::ZeroRotator;
+	FVector Scale = FVector::OneVector;
+	FTransform SpawnTransform = FTransform(Rotation, Location, Scale);
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+
+	TileSpawnedActor = GetWorld()->SpawnActor<AActor>(ActorClass, SpawnTransform, SpawnParams);
 }
 

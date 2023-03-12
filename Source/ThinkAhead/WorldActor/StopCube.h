@@ -18,5 +18,9 @@ public:
 	AStopCube();
 
 	virtual void PerformAction() override;
+
+protected:
+
+
 	
 };

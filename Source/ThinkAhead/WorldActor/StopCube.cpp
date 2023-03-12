@@ -3,6 +3,9 @@
 
 #include "ThinkAhead/WorldActor/StopCube.h"
 
+#include "ThinkAhead/WorldActor/ControlledCube.h"
+#include "ThinkAhead/WorldActor/GridTile.h"
+
 AStopCube::AStopCube()
 {
 
@@ -11,4 +14,14 @@ AStopCube::AStopCube()
 void AStopCube::PerformAction()
 {
 
+	if (!PlayerCube)
+		return;
+
+	PlayerCube->SetCubeState(ECubeState::ECS_Idle);
+	
+	if (!GetPlayersCurrentTile())
+		return;
+
+	FVector TileCenter = GetPlayersCurrentTile()->GetTileCenter();
+	PlayerCube->SetActorLocation(TileCenter);
 }

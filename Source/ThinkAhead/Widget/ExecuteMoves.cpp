@@ -23,7 +23,7 @@ void UExecuteMoves::Execute()
 {
 	UMovesContainer* OwningContainer = Cast<UMovesContainer>(GetParent()->GetOuter()->GetOuter());
 
-	if (!OwningContainer)
+	if (!OwningContainer || PlayerPawn->GetPlayerCube()->IsGameStarted())
 		return;
 
 	UPanelWidget* ContainingBox = OwningContainer->GetMovesPanelBox();

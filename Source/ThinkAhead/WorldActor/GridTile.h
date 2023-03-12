@@ -12,7 +12,9 @@ enum class ETileType : uint8
 {
 	ETT_None UMETA(DisplayName="None"),
 	ETT_Start UMETA(DisplayName="Start"),
-	ETT_StopCube UMETA(DisplayName="StopCube")
+	ETT_StopCube UMETA(DisplayName="StopCube"),
+	ETT_KillTile UMETA(DisplayName="KillTile"),
+	ETT_WinTile UMETA(DisplayName="WinTile")
 };
 
 UCLASS()
@@ -33,12 +35,13 @@ public:
 	void SetTileSize(int32 NewTileSize) { TileSize = NewTileSize; }
 	void SetTileType(ETileType NewType) { TileType = NewType; }
 
+	void DestroyTile();
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Procedural Mesh")
 	int32 TileSize;
-	UPROPERTY(EditAnywhere, Category = "Procedural Mesh")
+	UPROPERTY(SaveGame, EditAnywhere, Category = "Procedural Mesh") // add SaveGame here
 	ETileType TileType;
 
 private:
@@ -58,18 +61,28 @@ private:
 
 	void GenerateTileVerts(TArray<FVector>& Verts);
 	void GenerateTrianles(TArray<int32>& Tris);
-
+	
+	void SpawnPlayerCube();
 	void HandleSpawning();
 
-	void SpawnPlayersCube();
-	void SpawnStopCube();
+	void ClearTileActor();
+
+	void SpawnActor(TSubclassOf<AActor> ActorClass);
 
 	UPROPERTY(EditDefaultsOnly, Category = "Tile|Initilization")
 	TSubclassOf<class AControlledCube> ControlledCubeClass;
 	UPROPERTY(EditDefaultsOnly, Category = "Tile|Initilization")
 	TSubclassOf<class AStopCube> StopCubeClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Tile|Initilization")
+	TSubclassOf<class AKillSpace> KillTileClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Tile|Initilization")
+	TSubclassOf<class ALevelWin> WinLevelClass;
+
 
 	class ACameraPawn* PlayerPawn;
 	void SetPlayerPawnRef();
 
+	UPROPERTY(SaveGame)
+	class AActor* TileSpawnedActor;
+		
 };

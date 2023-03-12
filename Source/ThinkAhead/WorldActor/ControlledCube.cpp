@@ -36,8 +36,8 @@ void AControlledCube::Tick(float DeltaTime)
 	{
 		if (GetCubeState() != ECubeState::ECS_Idle)
 		{
+			CheckForObstacle();
 			SetCurrentTile();
-			CheckNextTile();
 		}
 		CheckState();
 	}
@@ -57,14 +57,7 @@ void AControlledCube::BeginPlay()
 
 void AControlledCube::SetCurrentTile()
 {
-	FVector StartLocation = GetActorLocation();
-	FVector EndLocation = GetActorLocation() - FVector(0.f, 0.f, 20.f);
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	FHitResult OutHit;
-
-	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1.f, 0, 5.f);
-	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, ECC_GameTraceChannel2, Params);
+	FHitResult OutHit = TraceUnderCube(ECC_GameTraceChannel2);
 
 	if (auto TileActor = Cast<AGridTile>(OutHit.GetActor()))
 	{
@@ -75,27 +68,52 @@ void AControlledCube::SetCurrentTile()
 	}
 }
 
-void AControlledCube::CheckNextTile()
+FHitResult AControlledCube::TraceUnderCube(ECollisionChannel TraceChannel)
 {
+	FVector StartLocation = GetActorLocation();
+	FVector EndLocation = GetActorLocation() - FVector(0.f, 0.f, 100.f);
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	FHitResult OutHit;
 
+	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, TraceChannel, Params);
+
+	return OutHit;
+}
+
+FHitResult AControlledCube::TraceInFrontCube(ECollisionChannel TraceChannel)
+{
 	FVector StartLocation = FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 50.f);
-	FVector EndLocation = SetTraceEndLocation();
+	FVector EndLocation = SetTraceEndDirection();
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	FHitResult OutHit;
 
 	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, .2f, 0, 5.f);
-	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, ECC_GameTraceChannel1, Params);
+	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, TraceChannel, Params);
 
-	if (auto Obstacle = Cast<AObstacle>(OutHit.GetActor()))
-	{
-		SetCubeState(ECubeState::ECS_Idle);
-		if(CurrentTile)
-			SetActorLocation(CurrentTile->GetTileCenter());
-	}
+	return OutHit;
 }
 
-FVector AControlledCube::SetTraceEndLocation()
+void AControlledCube::CheckForObstacle()
+{
+
+	FHitResult OutHitFront = TraceInFrontCube(ECC_GameTraceChannel1);
+	FHitResult OutHitUnder = TraceUnderCube(ECC_GameTraceChannel1);
+
+	if (auto Front = Cast<AObstacle>(OutHitFront.GetActor()))
+	{
+		Front->PerformAction();
+	}
+	else if (auto Under = Cast<AObstacle>(OutHitUnder.GetActor()))
+	{
+		Under->PerformAction();
+	}
+
+}
+
+FVector AControlledCube::SetTraceEndDirection()
 {
 	if (GetCubeState() == ECubeState::ECS_MovingNorthSouth)
 	{
