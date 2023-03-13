@@ -3,11 +3,11 @@
 
 #include "ThinkAhead/Controller/CubeController.h"
 
-#include "ThinkAhead/Widget/PlayerHud.h"
-#include "ThinkAhead/Widget/ExecuteMoves.h"
-#include "ThinkAhead/WorldActor/ControlledCube.h"
-#include "ThinkAhead/Widget/LoseScreen.h"
-#include "ThinkAhead/Widget/WinScreen.h"
+#include "ThinkAhead/Widget/Screen/PlayerHud.h"
+#include "ThinkAhead/Widget/Move/ExecuteMoves.h"
+#include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
+#include "ThinkAhead/Widget/Screen/LoseScreen.h"
+#include "ThinkAhead/Widget/Screen/WinScreen.h"
 
 ACubeController::ACubeController()
 	:PlayerHud(nullptr)

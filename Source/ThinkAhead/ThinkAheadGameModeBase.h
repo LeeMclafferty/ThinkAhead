@@ -28,6 +28,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	FName GetNextLevelName() { return NextLevelName; }
 
+	void WinLevel();
+	bool HasWonLevel() { return bHasWonLevel; }
 protected:
 
 	virtual void BeginPlay() override;
@@ -51,5 +53,7 @@ protected:
 	FName NextLevelName;
 private:
 	void CreateStartingPieces();
+
+	bool bHasWonLevel;
 	
 };

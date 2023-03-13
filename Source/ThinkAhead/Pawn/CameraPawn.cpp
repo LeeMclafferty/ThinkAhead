@@ -6,7 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 
-#include "ThinkAhead/WorldActor/ControlledCube.h"
+#include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
 
 ACameraPawn::ACameraPawn()
 	:PlayersCube(nullptr)

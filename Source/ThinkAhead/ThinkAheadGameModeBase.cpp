@@ -3,12 +3,17 @@
 
 #include "ThinkAheadGameModeBase.h"
 
-#include "ThinkAhead/Widget/MovePiece.h"
+#include "ThinkAhead/Widget/GamePiece/MovePiece.h"
 
 AThinkAheadGameModeBase::AThinkAheadGameModeBase()
-	:NumOfMovesToMake(4), NumMoveOptions(5)
+	:NumOfMovesToMake(4), NumMoveOptions(5), bHasWonLevel(false)
 {
 
+}
+
+void AThinkAheadGameModeBase::WinLevel()
+{
+	bHasWonLevel = true;
 }
 
 void AThinkAheadGameModeBase::BeginPlay()
