@@ -9,12 +9,14 @@
 #include "ThinkAhead/ThinkAheadGameModeBase.h"
 
 AMovementGrid::AMovementGrid()
-	:TileSize(125), NumRows(10), NumColumns(10), bGenerateNew(false), bClearGrid(false)
+	:TileSize(125), NumRows(10), NumColumns(10), bGenerateNew(false), bClearGrid(false), bHasGridMade(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
 	Orgin = CreateDefaultSubobject<USphereComponent>(TEXT("Orgin"));
 	SetRootComponent(Orgin);
+
+	UE_LOG(LogTemp, Warning, TEXT("Gamemode Constructor"));
 }
 
 AMovementGrid::~AMovementGrid()
@@ -89,6 +91,8 @@ void AMovementGrid::GenerateGrid()
 
 void AMovementGrid::DestroyGrid()
 {
+	bHasGridMade = false;
+
 	for (int x = 0; x < Tiles.Num(); x++)
 	{
 		if(Tiles[x])
@@ -99,8 +103,12 @@ void AMovementGrid::DestroyGrid()
 
 void AMovementGrid::CreateNewGrid()
 {
+	if (bHasGridMade)
+		return;
+
 	DestroyGrid();
 	bGenerateNew = false;
 	GenerateGrid();
+	bHasGridMade = true;
 }
 

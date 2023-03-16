@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
+#include "ThinkAhead/Controller/MyPlayerController.h"
 #include "CubeController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class THINKAHEAD_API ACubeController : public APlayerController
+class THINKAHEAD_API ACubeController : public AMyPlayerController
 {
 	GENERATED_BODY()
 
@@ -43,7 +43,5 @@ protected:
 private:
 	class UExecuteMoves* ExecuteButton;
 	class AControlledCube* ControlledCube;
-
-	void ClearViewPort();
 	
 };

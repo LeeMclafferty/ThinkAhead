@@ -23,10 +23,6 @@ void ACubeController::BeginPlay()
 	
 	CreatePlayerHud();
 
-	FInputModeUIOnly InputMode;
-	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	SetInputMode(InputMode);
-
 	if (PlayerHud)
 	{
 		ExecuteButton = PlayerHud->GetExecuteButton();
@@ -44,43 +40,18 @@ void ACubeController::SetControlledCube(AControlledCube* NewCube)
 
 void ACubeController::CreateLoseScreen()
 {
-	if (!LoseScreenClass)
-		return;
-
-	ClearViewPort();
-
-	LoseScreen = CreateWidget<ULoseScreen>(this, LoseScreenClass);
-	LoseScreen->AddToViewport();
+	SetupWidget(LoseScreenClass);
 }
 
 void ACubeController::CreateWinScreen()
 {
-	if (!WinScreenClass)
-		return;
-
-	ClearViewPort();
-
-	WinScreen = CreateWidget<UWinScreen>(this, WinScreenClass);
-	WinScreen->AddToViewport();
+	SetupWidget(WinScreenClass);
 }
 
 void ACubeController::CreatePlayerHud()
 {
-	if (!PlayerHudClass)
-		return;
+	SetupWidget(PlayerHudClass);
 
-	ClearViewPort();
-
-	PlayerHud = CreateWidget<UPlayerHud>(this, PlayerHudClass);
-	PlayerHud->AddToViewport();
+	PlayerHud = Cast<UPlayerHud>(GetCurrentWidget());
 }
 
-void ACubeController::ClearViewPort()
-{
-	if (PlayerHud)
-		PlayerHud->RemoveFromParent();
-	else if (LoseScreen)
-		LoseScreen->RemoveFromParent();
-	else if (WinScreen)
-		WinScreen->RemoveFromParent();
-}

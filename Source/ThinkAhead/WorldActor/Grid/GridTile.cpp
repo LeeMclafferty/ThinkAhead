@@ -17,7 +17,7 @@
 
 // Sets default values
 AGridTile::AGridTile()
-	:TileSize(125), Width(TileSize), Height(TileSize)
+	:TileSize(125), TileType(ETileType::ETT_None), Width(TileSize), Height(TileSize)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -25,8 +25,9 @@ AGridTile::AGridTile()
 	
 	TileMesh->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 	TileMesh->SetCollisionProfileName(FName("Tile"));
+	SetRootComponent(TileMesh);
 
-	TileType = ETileType::ETT_None;
+	UE_LOG(LogTemp, Error, TEXT("Tile Constructor"));
 }
 
 void AGridTile::OnConstruction(const FTransform& Transform)
@@ -50,7 +51,6 @@ void AGridTile::OnConstruction(const FTransform& Transform)
  	Triangles = TrisBuffer;
 
 	TileMesh->CreateMeshSection_LinearColor(0, Verticies, Triangles, Normals, Uvs, VertexColors, Tangents, true);
-	//GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Purple, TEXT("TileConstruct"));
 }
 
 void AGridTile::BeginPlay()

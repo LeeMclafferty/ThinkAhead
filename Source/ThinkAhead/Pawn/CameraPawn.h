@@ -23,16 +23,28 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class USceneComponent* RootComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class USpringArmComponent* SpringArm;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class UCameraComponent* GameCamera;
+	
+	UFUNCTION(BlueprintCallable)
+	void ZoomIn();
+	UFUNCTION(BlueprintCallable)
+	void ZoomOut();
+
+	UPROPERTY(EditDefaultsOnly, Category="Zoom")
+	float ZoomInLimit;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Zoom")
+	float ZoomOutLimit;
+	
 
 private:	
-
-	UPROPERTY(VisibleAnywhere)
-	class USceneComponent* RootComp;
-	UPROPERTY(VisibleAnywhere)
-	class USpringArmComponent* SpringArm;
-	UPROPERTY(VisibleAnywhere)
-	class UCameraComponent* GameCamera;
 
 	class AControlledCube* PlayersCube;
 };

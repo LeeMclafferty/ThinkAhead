@@ -60,4 +60,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Grid|Initilization")
 	class UMaterialInterface* SecondMaterial;
 
+	UPROPERTY(VisibleAnywhere)
+	bool bHasGridMade;
+
 };

@@ -45,7 +45,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Procedural Mesh")
 	int32 TileSize;
-	UPROPERTY(SaveGame, EditAnywhere, Category = "Procedural Mesh") // add SaveGame here
+	UPROPERTY(SaveGame, EditAnywhere, Category = "Procedural Mesh")
 	ETileType TileType;
 
 private:
