@@ -16,4 +16,7 @@ class THINKAHEAD_API UConfirmationPopup : public UUserWidget
 
 public:
 	virtual void NativeConstruct() override;
+
+	UFUNCTION(BlueprintCallable)
+	void GoBack();
 };

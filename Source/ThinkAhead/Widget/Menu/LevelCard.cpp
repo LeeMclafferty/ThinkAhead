@@ -2,8 +2,9 @@
 
 
 #include "ThinkAhead/Widget/Menu/LevelCard.h"
+#include "Components/TextBlock.h"
 
 void ULevelCard::NativeConstruct()
 {
-
+	LevelNumberText->SetText(LevelIndex);
 }

@@ -13,10 +13,36 @@ void UMainMenu::NativeConstruct()
 
 void UMainMenu::OnPressPlay()
 {
-	auto Controller = Cast<AMenuController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	auto Controller = CheckMenuController();
 
 	if (!Controller)
 		return;
 
 	Controller->CreateLevelSelect();
+}
+
+void UMainMenu::OnPressOptions()
+{
+	auto Controller = CheckMenuController();
+
+	if (!Controller)
+		return;
+
+	Controller->CreateOptionsMenu();
+}
+
+void UMainMenu::OnPressExit()
+{
+	auto Controller = CheckMenuController();
+
+	if (!Controller)
+		return;
+
+	Controller->CreateExitPopup();
+} 
+
+class AMenuController* UMainMenu::CheckMenuController()
+{
+	AMenuController* Controller = Cast<AMenuController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	return Controller;
 }

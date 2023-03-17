@@ -29,4 +29,12 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void OnPressPlay();
+	UFUNCTION(BlueprintCallable)
+	void OnPressOptions();
+	UFUNCTION(BlueprintCallable)
+	void OnPressExit();
+
+private:
+
+	class AMenuController* CheckMenuController();
 };

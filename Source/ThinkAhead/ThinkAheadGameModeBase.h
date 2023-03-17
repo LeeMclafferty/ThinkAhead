@@ -31,10 +31,6 @@ public:
 	void WinLevel();
 	bool HasWonLevel() { return bHasWonLevel; }
 
-	UFUNCTION()
-	void SaveGame();
-	UFUNCTION()
-	void LoadGame();
 protected:
 
 	virtual void BeginPlay() override;

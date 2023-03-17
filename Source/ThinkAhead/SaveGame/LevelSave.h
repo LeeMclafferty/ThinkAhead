@@ -20,8 +20,6 @@ public:
 	ULevelSave();
 
 	UPROPERTY()
-	TArray<class AGridTile*> GridTiles;
-	UPROPERTY()
-	ETileType TileType;
+	bool bHasWonLevel;
 	
 };

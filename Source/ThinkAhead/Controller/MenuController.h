@@ -19,7 +19,7 @@ public:
 
 	void CreateMainMenu();
 	void CreateLevelSelect();
-	void CreateQuitPopup();
+	void CreateExitPopup();
 	void CreateOptionsMenu();
 
 protected:

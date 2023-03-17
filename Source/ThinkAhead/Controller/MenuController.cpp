@@ -34,7 +34,7 @@ void AMenuController::CreateLevelSelect()
 	SetupWidget(LevelSelectClass);
 }
 
-void AMenuController::CreateQuitPopup()
+void AMenuController::CreateExitPopup()
 {
 	SetupWidget(ExitPopupClass);
 }

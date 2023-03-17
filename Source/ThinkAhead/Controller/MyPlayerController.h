@@ -18,13 +18,16 @@ public:
 
 	AMyPlayerController();
 
-protected:
-
 	void SetupWidget(TSubclassOf<UUserWidget> WidgetClass);
+
+protected:
+	virtual void Tick(float DeltaTime) override;
+
 	void ClearViewPort();
 
 	UUserWidget* GetCurrentWidget() { return CurrentWidget; }
 
 private:
 	UUserWidget* CurrentWidget;
+	
 };

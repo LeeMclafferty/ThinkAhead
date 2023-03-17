@@ -17,7 +17,7 @@ class THINKAHEAD_API ULevelCard : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 	FName GetLevelToOpen() { return LevelToOpen; }
 
 protected:
@@ -26,4 +26,8 @@ protected:
 
 	UPROPERTY(meta=(BindWidget))
 	class UButton* LevelNumButton;
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* LevelNumberText;
+	UPROPERTY(EditAnywhere, Category="Level")
+	FText LevelIndex;
 };

@@ -17,5 +17,8 @@ class THINKAHEAD_API UOptionsMenu : public UUserWidget
 
 public:
 	virtual void NativeConstruct() override;
+
+	UFUNCTION(BlueprintCallable)
+	void GoBack();
 	
 };

@@ -14,6 +14,7 @@ void AMyPlayerController::SetupWidget(TSubclassOf<UUserWidget> WidgetClass)
 	if (!WidgetClass)
 		return;
 
+
 	ClearViewPort();
 
 	auto Menu = CreateWidget<UUserWidget>(this, WidgetClass);
@@ -21,6 +22,11 @@ void AMyPlayerController::SetupWidget(TSubclassOf<UUserWidget> WidgetClass)
 	CurrentWidget = Menu;
 	CurrentWidget->AddToViewport();
 
+}
+
+void AMyPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 void AMyPlayerController::ClearViewPort()
