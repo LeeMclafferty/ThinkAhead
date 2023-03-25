@@ -23,38 +23,36 @@ public:
 	int32 GetNumMoveOptions() { return NumMoveOptions; }
 	UFUNCTION(BlueprintPure)
 	TArray<class UMovePiece*> GetStartingPieces() { return StaringPieces; }
+
 	UFUNCTION(BlueprintPure)
 	FName GetLevelName() { return LevelName;}
 	UFUNCTION(BlueprintPure)
 	FName GetNextLevelName() { return NextLevelName; }
 
-	void WinLevel();
-	bool HasWonLevel() { return bHasWonLevel; }
+	void LevelLost();
 
 protected:
 
 	virtual void BeginPlay() override;
 	// Total Number of moves that can be executed for a level.
-	UPROPERTY(EditDefaultsOnly, Category = "Initialization")
+	UPROPERTY(EditDefaultsOnly, Category = "Initialization|Gameplay")
 	int32 NumOfMovesToMake;
-
 	// All of the possible moves to select from. 
-	UPROPERTY(EditDefaultsOnly, Category = "Initialization")
+	UPROPERTY(EditDefaultsOnly, Category = "Initialization|Gameplay")
 	int32 NumMoveOptions;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Initialization|TSubclassOf")
 	TArray<TSubclassOf<class UMovePiece>> StartingPieceClasses;
-
 	UPROPERTY(VisibleAnywhere)
 	TArray<class UMovePiece*> StaringPieces;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Initialization")
+	UPROPERTY(EditDefaultsOnly, Category = "Initialization|LevelDetails")
 	FName LevelName;
-	UPROPERTY(EditDefaultsOnly, Category = "Initialization")
+	UPROPERTY(EditDefaultsOnly, Category = "Initialization|LevelDetails")
 	FName NextLevelName;
+
 private:
 	void CreateStartingPieces();
-
-	bool bHasWonLevel;
-	
+	void UnlockLevel();
+	void LoadGame();
 };

@@ -8,26 +8,28 @@
 #include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
 #include "ThinkAhead/WorldActor/Grid/GridTile.h"
 #include "ThinkAhead/ThinkAheadGameModeBase.h"
+#include "ThinkAhead/GameInstance/ThinkAheadGameInstance.h"
 
 ALevelWin::ALevelWin()
 {
-	PlayerController = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	GameMode = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
 }
 
 void ALevelWin::PerformAction()
 {
 	Super::PerformAction();
 
+	PlayerController = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	GameMode = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
 	if (!PlayerController || !GameMode)
 		return;
 
 	PlayerCube->SetCubeState(ECubeState::ECS_Idle);
 
-	if (!GetPlayersCurrentTile() || GameMode->HasWonLevel())
+	if (!GetPlayersCurrentTile())
 		return;
 
-	GameMode->WinLevel();
 	FVector TileCenter = GetPlayersCurrentTile()->GetTileCenter();
 	PlayerCube->SetActorLocation(TileCenter);
 

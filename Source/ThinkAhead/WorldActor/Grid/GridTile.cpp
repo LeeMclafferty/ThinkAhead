@@ -83,7 +83,7 @@ FVector AGridTile::GetTileCenter()
 
 	AvgX = (SumX / Verticies.Num());
 	AvgY = (SumY / Verticies.Num());
-	FVector CenterVector(AvgX, AvgY, TileMesh->GetComponentLocation().Z + 10.f);
+	FVector CenterVector(AvgX, AvgY, TileMesh->GetComponentLocation().Z + 5.f);
 
 	return UKismetMathLibrary::TransformLocation(GetActorTransform(), CenterVector);
 }
@@ -150,10 +150,13 @@ void AGridTile::HandleSpawning()
 			break;
 		case ETileType::ETT_ChangeSouth:
 			SpawnActor(ChangeSouthClass);
+			break;
 		case ETileType::ETT_ChangeEast:
 			SpawnActor(ChangeEastClass);
+			break;
 		case ETileType::ETT_ChangeWest:
 			SpawnActor(ChangeWestClass);
+			break;
 		default:
 			break;
 	}

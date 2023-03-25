@@ -30,6 +30,12 @@ protected:
 	class UMovesContainer* MoveFromPanel;
 	//No bind since it is part of the MoveToPanel, not the UPlayerHud. 
 	class UExecuteMoves* ExecuteButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* RestartButton;
+
+	UFUNCTION(BlueprintCallable)
+	void ResartLevel();
 private:
 	
 };

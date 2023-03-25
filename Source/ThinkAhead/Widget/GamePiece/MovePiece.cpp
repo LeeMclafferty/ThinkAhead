@@ -20,6 +20,7 @@ void UMovePiece::NativeConstruct()
 		PlayerPawn = PP;
 	}
 	bHasActivated = false;
+	
 
 	
 }

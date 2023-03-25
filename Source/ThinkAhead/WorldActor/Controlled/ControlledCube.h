@@ -34,6 +34,7 @@ public:
 
 	bool IsGameStarted() { return bIsGameStarted; }
 
+	void OnDeath();
 protected:
 	virtual void BeginPlay() override;
 

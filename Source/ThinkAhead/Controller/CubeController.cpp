@@ -10,7 +10,6 @@
 #include "ThinkAhead/Widget/Screen/WinScreen.h"
 
 ACubeController::ACubeController()
-	:PlayerHud(nullptr)
 {
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
@@ -37,21 +36,3 @@ void ACubeController::SetControlledCube(AControlledCube* NewCube)
 {
 	ControlledCube = NewCube;
 }
-
-void ACubeController::CreateLoseScreen()
-{
-	SetupWidget(LoseScreenClass);
-}
-
-void ACubeController::CreateWinScreen()
-{
-	SetupWidget(WinScreenClass);
-}
-
-void ACubeController::CreatePlayerHud()
-{
-	SetupWidget(PlayerHudClass);
-
-	PlayerHud = Cast<UPlayerHud>(GetCurrentWidget());
-}
-

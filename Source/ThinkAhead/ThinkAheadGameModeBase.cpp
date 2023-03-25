@@ -5,23 +5,32 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "ThinkAhead/Widget/GamePiece/MovePiece.h"
+#include "ThinkAhead/GameInstance/ThinkAheadGameInstance.h"
+#include "ThinkAhead/Controller/CubeController.h"
 
 
 AThinkAheadGameModeBase::AThinkAheadGameModeBase()
-	:NumOfMovesToMake(4), NumMoveOptions(5), bHasWonLevel(false)
+	:NumOfMovesToMake(4), NumMoveOptions(5)
 {
 
 }
 
-void AThinkAheadGameModeBase::WinLevel()
+void AThinkAheadGameModeBase::LevelLost()
 {
-	bHasWonLevel = true;
+	auto Controller = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
+	if (!Controller)
+		return;
+	
+	Controller->CreateLoseScreen();
 }
 
 void AThinkAheadGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	LoadGame();
+	UnlockLevel();
 	CreateStartingPieces();
 }
 
@@ -36,4 +45,25 @@ void AThinkAheadGameModeBase::CreateStartingPieces()
 
 		StaringPieces.Emplace(Current);
 	}
+}
+
+void AThinkAheadGameModeBase::UnlockLevel()
+{
+	UThinkAheadGameInstance* GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!GameInst)
+		return;
+
+	GameInst->UnlockLevel(LevelName);
+	GameInst->SaveGame();
+}
+
+void AThinkAheadGameModeBase::LoadGame()
+{
+	UThinkAheadGameInstance* GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!GameInst)
+		return;
+
+	GameInst->LoadGame();
 }

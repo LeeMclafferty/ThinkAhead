@@ -24,22 +24,3 @@ void AMenuController::BeginPlay()
 	CreateMainMenu();
 }
 
-void AMenuController::CreateMainMenu()
-{
-	SetupWidget(MainMenuClass);
-}
-
-void AMenuController::CreateLevelSelect()
-{
-	SetupWidget(LevelSelectClass);
-}
-
-void AMenuController::CreateExitPopup()
-{
-	SetupWidget(ExitPopupClass);
-}
-
-void AMenuController::CreateOptionsMenu()
-{
-	SetupWidget(OptionsMenuClass);
-}

@@ -6,38 +6,47 @@
 
 #include "ThinkAhead/SaveGame/LevelSave.h"
 
+UThinkAheadGameInstance::UThinkAheadGameInstance()
+{
+	UnlockLevel(FName("Level1"));
+}
+
 void UThinkAheadGameInstance::SaveGame()
 {
-
 	ULevelSave* LevelSave;
-
-	if (!UGameplayStatics::DoesSaveGameExist("Default", 0))
+	if (UGameplayStatics::DoesSaveGameExist("Default", 0))
+	{
+		LevelSave = Cast<ULevelSave>(UGameplayStatics::LoadGameFromSlot("Default", 0));
+	}
+	else
 	{
 		LevelSave = Cast<ULevelSave>(UGameplayStatics::CreateSaveGameObject(ULevelSave::StaticClass()));
 	}
 
+	LevelSave->SaveUnlockedLevels(UnlockedLevels);
 	UGameplayStatics::SaveGameToSlot(LevelSave, "Default", 0);
 
 }
 
 void UThinkAheadGameInstance::LoadGame()
 {
-	ULevelSave* LevelSave = Cast<ULevelSave>(UGameplayStatics::CreateSaveGameObject(ULevelSave::StaticClass()));
-	LevelSave = Cast<ULevelSave>(UGameplayStatics::LoadGameFromSlot("SaveSlot", 0));
+	ULevelSave* LevelSave = Cast<ULevelSave>(UGameplayStatics::LoadGameFromSlot("Default", 0));
 
 	if (LevelSave)
 	{
-		bHasWonLevel = LevelSave->bHasWonLevel;
+		UnlockedLevels = LevelSave->GetUnlockedLevels();
 	}
 }
 
-void UThinkAheadGameInstance::AddLevel(class AThinkAheadGameModeBase* LevelGamemode)
+bool UThinkAheadGameInstance::IsLevelUnlocked(FName LevelName)
 {
-
+	return UnlockedLevels.Contains(LevelName);
 }
 
-void UThinkAheadGameInstance::LevelName()
+void UThinkAheadGameInstance::UnlockLevel(FName LevelName)
 {
+	if (UnlockedLevels.Contains(LevelName))
+		return;
 
+	UnlockedLevels.Add(LevelName);
 }
-

@@ -6,9 +6,10 @@
 #include "Components/Button.h"
 
 #include "ThinkAhead/Pawn/CameraPawn.h"
-#include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
+#include "ThinkAhead/Controller/CubeController.h"
 #include "ThinkAhead/Widget/Move/MovesContainer.h"
 #include "ThinkAhead/Widget/Move/MoveToContainer.h"
+#include "ThinkAhead/ThinkAheadGameModeBase.h"
 
 
 void UPlayerHud::NativeConstruct()
@@ -25,3 +26,12 @@ void UPlayerHud::NativeConstruct()
 
 
  
+void UPlayerHud::ResartLevel()
+{
+	auto Gamemode = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (!Gamemode)
+		return;
+
+	UGameplayStatics::OpenLevel(GetWorld(), Gamemode->GetLevelName());
+}

@@ -19,7 +19,11 @@ public:
 
 	ULevelSave();
 
+	void SaveUnlockedLevels(TArray<FName> Levels);
+	TArray<FName> GetUnlockedLevels() { return UnlockedLevels; }
+
+protected:
 	UPROPERTY()
-	bool bHasWonLevel;
+	TArray<FName> UnlockedLevels;
 	
 };

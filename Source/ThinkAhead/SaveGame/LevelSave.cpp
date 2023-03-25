@@ -7,3 +7,9 @@ ULevelSave::ULevelSave()
 {
 
 }
+
+void ULevelSave::SaveUnlockedLevels(TArray<FName> Levels)
+{
+	UnlockedLevels = Levels;
+}
+

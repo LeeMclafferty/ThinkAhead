@@ -25,7 +25,5 @@ void AKillSpace::PerformAction()
 	if (!GetPlayersCurrentTile())
 		return;
 
-	//Play animations / VFX here.
-
-	PlayerController->CreateLoseScreen();
+	PlayerCube->OnDeath();
 }

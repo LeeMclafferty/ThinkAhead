@@ -21,6 +21,7 @@ public:
 	FName GetLevelToOpen() { return LevelToOpen; }
 
 protected:
+	//Open level by name
 	UPROPERTY(EditAnywhere, Category="Level")
 	FName LevelToOpen;
 
@@ -28,6 +29,14 @@ protected:
 	class UButton* LevelNumButton;
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* LevelNumberText;
+
+	//Set LevelCard text
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	FText LevelToOpenText;
+
+	UFUNCTION(BlueprintCallable)
+	void OpenLevel();
+
 	UPROPERTY(EditAnywhere, Category="Level")
-	FText LevelIndex;
+	ULevel* Level;
 };

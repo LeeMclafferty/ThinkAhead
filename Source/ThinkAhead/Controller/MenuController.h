@@ -17,21 +17,9 @@ class THINKAHEAD_API AMenuController : public AMyPlayerController
 public:
 	AMenuController();
 
-	void CreateMainMenu();
-	void CreateLevelSelect();
-	void CreateExitPopup();
-	void CreateOptionsMenu();
-
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category="Init")
-	TSubclassOf<class UUserWidget> MainMenuClass;
-	UPROPERTY(EditDefaultsOnly, Category = "Init")
-	TSubclassOf<class UUserWidget> LevelSelectClass;
-	UPROPERTY(EditDefaultsOnly, Category = "Init")
-	TSubclassOf<class UUserWidget> OptionsMenuClass;
-	UPROPERTY(EditDefaultsOnly, Category = "Init")
-	TSubclassOf<class UUserWidget> ExitPopupClass;
+
 
 };

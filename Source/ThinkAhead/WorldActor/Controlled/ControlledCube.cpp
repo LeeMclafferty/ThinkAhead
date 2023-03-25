@@ -40,6 +40,11 @@ void AControlledCube::Tick(float DeltaTime)
 			SetCurrentTile();
 		}
 		CheckState();
+
+		if (!CurrentTile)
+		{
+			OnDeath();
+		}
 	}
 }
 
@@ -61,7 +66,6 @@ void AControlledCube::SetCurrentTile()
 
 	if (auto TileActor = Cast<AGridTile>(OutHit.GetActor()))
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Purple, FString::Printf(TEXT("Hit Detected")));
 		if (TileActor == CurrentTile)
 			return;
 
@@ -77,7 +81,6 @@ FHitResult AControlledCube::TraceUnderCube(ECollisionChannel TraceChannel)
 	Params.AddIgnoredActor(this);
 	FHitResult OutHit;
 
-	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1.f, 0, 5.f);
 	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, TraceChannel, Params);
 
 	return OutHit;
@@ -91,7 +94,6 @@ FHitResult AControlledCube::TraceInFrontCube(ECollisionChannel TraceChannel)
 	Params.AddIgnoredActor(this);
 	FHitResult OutHit;
 
-	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, .2f, 0, 5.f);
 	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, TraceChannel, Params);
 
 	return OutHit;
@@ -211,5 +213,12 @@ void AControlledCube::SetCubeState(ECubeState NewState)
 	{
 		StateManager->SetState(NewState);
 	}
+}
+
+void AControlledCube::OnDeath()
+{
+	//VFX / SFX here
+	SetCubeState(ECubeState::ECS_Idle);
+	CubeController->CreateLoseScreen();
 }
 

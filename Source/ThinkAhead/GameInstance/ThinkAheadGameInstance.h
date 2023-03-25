@@ -12,15 +12,18 @@ class THINKAHEAD_API UThinkAheadGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UThinkAheadGameInstance();
+
+	UFUNCTION(BlueprintCallable)
 	void SaveGame();
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void LoadGame();
 
-	void AddLevel(class AThinkAheadGameModeBase* LevelGamemode);
+	bool IsLevelUnlocked(FName LevelName);
+	void UnlockLevel(FName LevelName);
 	
 private:
 
-	TArray<AThinkAheadGameModeBase> Levels;
-	
+	UPROPERTY(EditDefaultsOnly, SaveGame, Category="Levels")
+	TArray<FName> UnlockedLevels;
 };
