@@ -20,6 +20,5 @@ void AStopCube::PerformAction()
 	if (!PlayerCube)
 		return;
 
-	//GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Purple, FString::Printf(TEXT("Hit Detected")));
 	PlayerCube->SetCubeState(ECubeState::ECS_Idle);
 }

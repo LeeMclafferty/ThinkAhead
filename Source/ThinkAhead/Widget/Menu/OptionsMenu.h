@@ -20,5 +20,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void GoBack();
+
+protected:
+
+	UFUNCTION(BlueprintCallable)
+	void ToggleOrthoCamera();
 	
 };

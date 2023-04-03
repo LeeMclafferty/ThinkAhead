@@ -29,9 +29,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CreateExitPopup();
 	UFUNCTION(BlueprintCallable)
-	void CreateOptionsMenu();
+	void CreateSettingsMenu();
+	UFUNCTION(BlueprintCallable)
+	void CreatePreviousWidget();
 
 protected:
+	virtual void SetupInputComponent() override;
+
 	void SetupWidget(TSubclassOf<UUserWidget> WidgetClass);
 	virtual void Tick(float DeltaTime) override;
 
@@ -56,12 +60,17 @@ protected:
 	TSubclassOf<class UUserWidget> LevelSelectClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Initialize|WidgetClass")
-	TSubclassOf<class UUserWidget> OptionsMenuClass;
+	TSubclassOf<class UUserWidget> SettingsMenuClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Initialize|WidgetClass")
 	TSubclassOf<class UUserWidget> ExitPopupClass;
 
+	TSubclassOf<class UUserWidget> PreviousWidgetClass;
+
 	void CreatePlayerHud();
+	
+	UFUNCTION()
+	void OpenSettingsMenu();
 private:
 	UUserWidget* CurrentWidget;
 	

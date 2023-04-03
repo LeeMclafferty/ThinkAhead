@@ -26,8 +26,6 @@ AGridTile::AGridTile()
 	TileMesh->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 	TileMesh->SetCollisionProfileName(FName("Tile"));
 	SetRootComponent(TileMesh);
-
-	UE_LOG(LogTemp, Error, TEXT("Tile Constructor"));
 }
 
 void AGridTile::OnConstruction(const FTransform& Transform)

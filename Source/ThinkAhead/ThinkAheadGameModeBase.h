@@ -31,6 +31,9 @@ public:
 
 	void LevelLost();
 
+	void ToggleOrtho();
+	bool IsOrtho() { return bIsOrtho; }
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -50,6 +53,8 @@ protected:
 	FName LevelName;
 	UPROPERTY(EditDefaultsOnly, Category = "Initialization|LevelDetails")
 	FName NextLevelName;
+
+	bool bIsOrtho;
 
 private:
 	void CreateStartingPieces();

@@ -11,6 +11,16 @@ AMyPlayerController::AMyPlayerController()
 
 }
 
+void AMyPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	if (InputComponent)
+	{
+		InputComponent->BindAction("OpenMenu", IE_Pressed, this, &AMyPlayerController::OpenSettingsMenu);
+	}
+}
+
 void AMyPlayerController::SetupWidget(TSubclassOf<UUserWidget> WidgetClass)
 {
 	if (!WidgetClass)
@@ -51,11 +61,21 @@ void AMyPlayerController::CreatePlayerHud()
 {
 	SetupWidget(PlayerHudClass);
 	PlayerHud = Cast<UPlayerHud>(CurrentWidget);
+	PreviousWidgetClass = PlayerHudClass;
+
+// 	if (PreviousWidgetClass)
+// 		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("CreatePlayerHud")));
+}
+
+void AMyPlayerController::OpenSettingsMenu()
+{
+	CreateSettingsMenu();
 }
 
 void AMyPlayerController::CreateMainMenu()
 {
 	SetupWidget(MainMenuClass);
+	PreviousWidgetClass = MainMenuClass;
 }
 
 void AMyPlayerController::CreateLevelSelect()
@@ -68,7 +88,15 @@ void AMyPlayerController::CreateExitPopup()
 	SetupWidget(ExitPopupClass);
 }
 
-void AMyPlayerController::CreateOptionsMenu()
+void AMyPlayerController::CreateSettingsMenu()
 {
-	SetupWidget(OptionsMenuClass);
+	SetupWidget(SettingsMenuClass);
+}
+
+void AMyPlayerController::CreatePreviousWidget()
+{
+	if (!PreviousWidgetClass)
+		return;
+
+	SetupWidget(PreviousWidgetClass);
 }

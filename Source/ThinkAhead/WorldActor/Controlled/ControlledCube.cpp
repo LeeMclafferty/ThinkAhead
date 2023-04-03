@@ -31,7 +31,7 @@ AControlledCube::AControlledCube()
 void AControlledCube::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 	if (bIsGameStarted)
 	{
 		if (GetCubeState() != ECubeState::ECS_Idle)
@@ -95,7 +95,6 @@ FHitResult AControlledCube::TraceInFrontCube(ECollisionChannel TraceChannel)
 	FHitResult OutHit;
 
 	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, TraceChannel, Params);
-
 	return OutHit;
 }
 
@@ -141,7 +140,7 @@ FVector AControlledCube::SetTraceEndDirection()
 		}
 	}
 
-	return FVector::ZeroVector;
+	return GetActorLocation();
 }
 
 

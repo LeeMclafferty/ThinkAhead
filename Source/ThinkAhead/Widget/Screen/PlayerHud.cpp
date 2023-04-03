@@ -35,3 +35,11 @@ void UPlayerHud::ResartLevel()
 
 	UGameplayStatics::OpenLevel(GetWorld(), Gamemode->GetLevelName());
 }
+
+void UPlayerHud::SwapPerspective()
+{
+	if (!PlayerPawn)
+		return;
+
+	PlayerPawn->ChangePerspctive();
+}

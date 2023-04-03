@@ -36,6 +36,10 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void ResartLevel();
+
+	UFUNCTION(BlueprintCallable)
+	void SwapPerspective();
+
 private:
 	
 };

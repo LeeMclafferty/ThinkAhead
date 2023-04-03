@@ -19,6 +19,8 @@ public:
 	class AControlledCube* GetPlayerCube() { return PlayersCube; }
 	void SetPlayerCube( AControlledCube* NewCube);
 
+	void ChangePerspctive();
+	void SwapZoomOutLimit();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,12 +41,28 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Zoom")
 	float ZoomInLimit;
+	UPROPERTY(VisibleAnywhere, Category = "Zoom")
+	float ZoomOutLimit;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Zoom")
-	float ZoomOutLimit;
-	
+	float OrthoZoom;
+	UPROPERTY(EditDefaultsOnly, Category = "Zoom")
+	float PerspectiveZoom;
+
+	void UpdateFOV(float PreviousFov);
+	FTimerHandle TransitionHandle;
+
+	UPROPERTY(EditDefaultsOnly, Category="Zoom")
+	float LerpDuration;
+
+	float TargetFov;
+
+	void LerpToMaxZoom();
+	FTimerHandle ZoomHandle;
+	bool bStartZoom;
 
 private:	
 
 	class AControlledCube* PlayersCube;
+	void CheckOrtho();
 };

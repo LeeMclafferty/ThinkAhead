@@ -10,7 +10,7 @@
 
 
 AThinkAheadGameModeBase::AThinkAheadGameModeBase()
-	:NumOfMovesToMake(4), NumMoveOptions(5)
+	:NumOfMovesToMake(4), NumMoveOptions(5), bIsOrtho(false)
 {
 
 }
@@ -23,6 +23,18 @@ void AThinkAheadGameModeBase::LevelLost()
 		return;
 	
 	Controller->CreateLoseScreen();
+}
+
+void AThinkAheadGameModeBase::ToggleOrtho()
+{
+	if (bIsOrtho)
+	{
+		bIsOrtho = false;
+	}
+	else
+	{
+		bIsOrtho = true;
+	}
 }
 
 void AThinkAheadGameModeBase::BeginPlay()
