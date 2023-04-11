@@ -3,8 +3,11 @@
 
 #include "ThinkAhead/Controller/MyPlayerController.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "ThinkAhead/Widget/Screen/PlayerHud.h"
+#include "ThinkAhead/ThinkAheadGameModeBase.h"
+#include "ThinkAhead/Widget/Menu/OptionsMenu.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -59,6 +62,11 @@ void AMyPlayerController::ClearViewPort()
 
 void AMyPlayerController::CreatePlayerHud()
 {
+
+	FInputModeGameAndUI InputMode;
+	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	SetInputMode(InputMode);
+
 	SetupWidget(PlayerHudClass);
 	PlayerHud = Cast<UPlayerHud>(CurrentWidget);
 	PreviousWidgetClass = PlayerHudClass;

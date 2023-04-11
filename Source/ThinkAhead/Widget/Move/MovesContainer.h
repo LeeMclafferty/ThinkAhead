@@ -46,6 +46,6 @@ protected:
 	bool AddMovePiece(class UMovePiece* ToAdd);
 
 private:
-	void ConstructMoveFromContainer(class AThinkAheadGameModeBase* GameMode);
-	void ConstructMoveToContainer(class AThinkAheadGameModeBase* GameMode);
+	void ConstructMoveFromContainer(class ALevelGamemode* GameMode);
+	void ConstructMoveToContainer(class ALevelGamemode* GameMode);
 };

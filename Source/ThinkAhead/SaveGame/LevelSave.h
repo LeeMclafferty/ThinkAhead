@@ -21,9 +21,14 @@ public:
 
 	void SaveUnlockedLevels(TArray<FName> Levels);
 	TArray<FName> GetUnlockedLevels() { return UnlockedLevels; }
+	void SaveSettings(bool bIsOrthoSet);
+	bool IsOrtho() { return bIsOrtho; }
 
 protected:
 	UPROPERTY()
 	TArray<FName> UnlockedLevels;
+
+	UPROPERTY()
+	bool bIsOrtho;
 	
 };

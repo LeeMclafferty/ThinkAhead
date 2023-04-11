@@ -18,7 +18,8 @@ enum class ETileType : uint8
 	ETT_ChangeNorth UMETA(DisplayName="ChangeNorth"),
 	ETT_ChangeSouth UMETA(DisplayName="ChangeSouth"),
 	ETT_ChangeEast UMETA(DisplayName="ChangeEast"),
-	ETT_ChangeWest UMETA(DisplayName="ChangeWest")
+	ETT_ChangeWest UMETA(DisplayName="ChangeWest"),
+	ETT_Button UMETA(DisplayName="Button")
 };
 
 UCLASS()
@@ -47,7 +48,7 @@ protected:
 	int32 TileSize;
 	UPROPERTY(SaveGame, EditAnywhere, Category = "Procedural Mesh")
 	ETileType TileType;
-
+	
 private:
 	virtual void OnConstruction(const FTransform& Transform) override;
 
@@ -89,6 +90,8 @@ private:
 	TSubclassOf<class AChangeDirection> ChangeEastClass;
 	UPROPERTY(EditDefaultsOnly, Category = "Tile|Initilization")
 	TSubclassOf<class AChangeDirection> ChangeWestClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Tile|Initilization")
+	TSubclassOf<class AButtonTrigger> ButtonTriggerClass;
 
 	class ACameraPawn* PlayerPawn;
 	void SetPlayerPawnRef();

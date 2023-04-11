@@ -9,7 +9,7 @@
 #include "ThinkAhead/Controller/CubeController.h"
 #include "ThinkAhead/Widget/Move/MovesContainer.h"
 #include "ThinkAhead/Widget/Move/MoveToContainer.h"
-#include "ThinkAhead/ThinkAheadGameModeBase.h"
+#include "ThinkAhead/Gamemode/LevelGamemode.h"
 
 
 void UPlayerHud::NativeConstruct()
@@ -28,7 +28,7 @@ void UPlayerHud::NativeConstruct()
  
 void UPlayerHud::ResartLevel()
 {
-	auto Gamemode = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	auto Gamemode = Cast<ALevelGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	if (!Gamemode)
 		return;

@@ -25,4 +25,6 @@ private:
 	TSubclassOf<class UMovePiece> MoveClass;
 
 	class UMovePiece* MoveDirection;
+
+	bool bHasActivated;
 };

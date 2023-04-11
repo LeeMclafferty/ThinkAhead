@@ -14,6 +14,7 @@
 #include "ThinkAhead/WorldActor/Obstacle/KillSpace.h"
 #include "ThinkAhead/WorldActor/Obstacle/LevelWin.h"
 #include "ThinkAhead/WorldActor/Obstacle/ChangeDirection.h"
+#include "ThinkAhead/WorldActor/Obstacle/ButtonTrigger.h"
 
 // Sets default values
 AGridTile::AGridTile()
@@ -155,6 +156,8 @@ void AGridTile::HandleSpawning()
 		case ETileType::ETT_ChangeWest:
 			SpawnActor(ChangeWestClass);
 			break;
+		case ETileType::ETT_Button:
+			SpawnActor(ButtonTriggerClass);
 		default:
 			break;
 	}

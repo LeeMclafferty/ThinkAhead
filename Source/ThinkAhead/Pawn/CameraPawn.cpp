@@ -9,9 +9,10 @@
 
 #include "ThinkAhead/ThinkAheadGameModeBase.h"
 #include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
+#include "ThinkAhead/GameInstance/ThinkAheadGameInstance.h"
 
 ACameraPawn::ACameraPawn()
-	: ZoomInLimit(500.f), ZoomOutLimit(14000.f), OrthoZoom(9000.f), PerspectiveZoom(3000.f), PlayersCube(nullptr)
+: ZoomInLimit(500.f), ZoomOutLimit(3000.f), OrthoFOV(25.f), PerspectiveFOV(90.f), OrthZoomLimit(9000.f), PerspectiveZoomLimit(3000.f), PlayersCube(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -27,6 +28,8 @@ ACameraPawn::ACameraPawn()
 void ACameraPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameInstance = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	CheckOrtho();
 }
 
@@ -78,80 +81,29 @@ void ACameraPawn::SetPlayerCube(AControlledCube* NewCube)
 	PlayersCube = NewCube;
 }
 
-void ACameraPawn::SwapZoomOutLimit()
-{
-	ZoomOutLimit = (ZoomOutLimit == PerspectiveZoom) ? OrthoZoom : PerspectiveZoom;
-
-	GetWorldTimerManager().SetTimer(ZoomHandle, this, &ACameraPawn::LerpToMaxZoom, 0.05f, true, 0.f);
-}
-
-void ACameraPawn::LerpToMaxZoom()
-{
-	float NewTargetArmLength = FMath::Lerp(SpringArm->TargetArmLength, ZoomOutLimit, .5f);
-	if (!FMath::IsNearlyEqual(SpringArm->TargetArmLength, ZoomOutLimit, 1.f))
-	{
-		SpringArm->TargetArmLength = NewTargetArmLength;
-	}
-	else
-	{
-		GetWorldTimerManager().ClearTimer(ZoomHandle);
-		SpringArm->TargetArmLength = ZoomOutLimit;
-	}
-}
-
 
 void ACameraPawn::CheckOrtho()
 {
-	auto Gamemode = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	ChangePerspctive();
+	SwapZoomOutLimit();
+}
 
-	if (!Gamemode)
+void ACameraPawn::SwapZoomOutLimit()
+{
+	if (!GameInstance)
 		return;
 
-	//ChangePerspecive will swap the FOV, so I set it to the opposite of what I want here.
-	if (Gamemode->IsOrtho())
-	{
-		GameCamera->FieldOfView = 90;
-		ChangePerspctive();
-		SwapZoomOutLimit();
-	}
+	ZoomOutLimit = (!GameInstance->IsOrtho()) ? PerspectiveZoomLimit : OrthZoomLimit;
+	SpringArm->TargetArmLength = ZoomOutLimit;
 }
 
 void ACameraPawn::ChangePerspctive()
 {
-	float Target = GameCamera->FieldOfView;
-	Target = (Target == 90.f) ? 25.f : 90.f;
+	if (!GameInstance)
+		return;
 
-	if (Target == 90.f)
-	{
-		ZoomOutLimit = 3000.f;
-	}
-	else
-	{
-		ZoomOutLimit = 9000.f;
-	}
-	SpringArm->TargetArmLength = ZoomOutLimit;
-
-	GetWorldTimerManager().SetTimer(TransitionHandle, [this, Target]()
-		{
-			UpdateFOV(Target);
-		}, .05f, true, 0.0f);
+	GameCamera->FieldOfView = (!GameInstance->IsOrtho()) ? PerspectiveFOV : OrthoFOV;
 }
 
-void ACameraPawn::UpdateFOV(float NewFov)
-{
-	TargetFov = NewFov;
-
-	float CurrentFov = FMath::Lerp(GameCamera->FieldOfView, TargetFov, .5f);
-	if (!FMath::IsNearlyEqual(TargetFov, CurrentFov, 1.f))
-	{
-		GameCamera->SetFieldOfView(CurrentFov);
-	}
-	else
-	{
-		GetWorldTimerManager().ClearTimer(TransitionHandle);
-		GameCamera->SetFieldOfView(TargetFov);
-		//SwapZoomOutLimit();
-	}
-}
 
 

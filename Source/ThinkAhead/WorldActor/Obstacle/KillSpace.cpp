@@ -10,20 +10,23 @@
 
 AKillSpace::AKillSpace()
 {
-	PlayerController = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	
 }
 
 void AKillSpace::PerformAction()
 {
 	Super::PerformAction();
 
+	PlayerController = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
 	if (!PlayerController)
 		return;
 	
 	PlayerCube->SetCubeState(ECubeState::ECS_Idle);
 
-	if (!GetPlayersCurrentTile())
-		return;
+ 	if (!GetPlayersCurrentTile())
+ 		return;
 
 	PlayerCube->OnDeath();
+	Destroy();
 }

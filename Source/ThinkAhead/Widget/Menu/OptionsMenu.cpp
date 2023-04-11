@@ -3,14 +3,16 @@
 
 #include "ThinkAhead/Widget/Menu/OptionsMenu.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/CheckBox.h"
 
 #include "ThinkAhead/Controller/MenuController.h"
 #include "ThinkAhead/Pawn/CameraPawn.h"
 #include "ThinkAhead/ThinkAheadGameModeBase.h"
+#include "ThinkAhead/GameInstance/ThinkAheadGameInstance.h"
 
 void UOptionsMenu::NativeConstruct()
 {
-
+	SetCheckBoxes();
 }
 
 void UOptionsMenu::GoBack()
@@ -32,13 +34,35 @@ void UOptionsMenu::ToggleOrthoCamera()
 
 	if (auto PlayerPawn = Cast<ACameraPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0)))
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("UOPtionsMenu::ToggleOrthoCamera")));
+		Gamemode->ToggleOrtho();
 		PlayerPawn->ChangePerspctive();
 		PlayerPawn->SwapZoomOutLimit();
-		Gamemode->ToggleOrtho();
 	}
 	else 
 	{
 		Gamemode->ToggleOrtho();
 	}
 
+	SaveChanges();
+}
+
+void UOptionsMenu::SaveChanges()
+{
+	auto Gameinst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!Gameinst)
+		return;
+
+	Gameinst->SaveGame();
+}
+
+void UOptionsMenu::SetCheckBoxes()
+{
+	auto Gameinst= Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!Gameinst)
+		return;
+
+	OrthoCheckBox->SetCheckedState(Gameinst->IsOrtho() ? ECheckBoxState::Checked : ECheckBoxState::Unchecked);
 }

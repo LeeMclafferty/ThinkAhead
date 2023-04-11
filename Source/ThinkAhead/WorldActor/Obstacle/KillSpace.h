@@ -20,5 +20,5 @@ public:
 private:
 
 	class ACubeController* PlayerController;
-	
+
 };

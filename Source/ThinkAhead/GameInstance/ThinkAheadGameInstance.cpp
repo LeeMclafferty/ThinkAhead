@@ -24,6 +24,7 @@ void UThinkAheadGameInstance::SaveGame()
 	}
 
 	LevelSave->SaveUnlockedLevels(UnlockedLevels);
+	LevelSave->SaveSettings(bIsOrtho);
 	UGameplayStatics::SaveGameToSlot(LevelSave, "Default", 0);
 
 }
@@ -35,6 +36,7 @@ void UThinkAheadGameInstance::LoadGame()
 	if (LevelSave)
 	{
 		UnlockedLevels = LevelSave->GetUnlockedLevels();
+		bIsOrtho = LevelSave->IsOrtho();
 	}
 }
 

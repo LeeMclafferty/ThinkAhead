@@ -8,7 +8,7 @@ public class ThinkAhead : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ProceduralMeshComponent", "EnhancedInput", "UMG", "SlateCore", "Slate" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ProceduralMeshComponent", "EnhancedInput", "UMG", "SlateCore", "Slate", "Niagara" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

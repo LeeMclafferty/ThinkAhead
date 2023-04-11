@@ -66,4 +66,9 @@ private:
 	bool bIsGameStarted;
 
 	void OnIdle();
+
+	UPROPERTY(EditDefaultsOnly, Category = "OnDeath")
+	class UStaticMesh* DeathMesh;
+	UPROPERTY(EditDefaultsOnly, Category = "OnDeath")
+	class UNiagaraSystem* DeathVFX;
 };

@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
 
 #include "ThinkAhead/WorldActor/Grid/GridTile.h"
 #include "ThinkAhead/WorldActor/Obstacle/Obstacle.h"
@@ -32,6 +33,14 @@ void AControlledCube::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
+	FVector StartLocation = GetActorLocation();
+	FVector EndLocation = GetActorLocation() - FVector(0.f, 0.f, 100.f);
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	FHitResult OutHit;
+
+	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 5.f, 0, 1.f);
+
 	if (bIsGameStarted)
 	{
 		if (GetCubeState() != ECubeState::ECS_Idle)
@@ -39,6 +48,7 @@ void AControlledCube::Tick(float DeltaTime)
 			CheckForObstacle();
 			SetCurrentTile();
 		}
+		
 		CheckState();
 
 		if (!CurrentTile)
@@ -111,6 +121,7 @@ void AControlledCube::CheckForObstacle()
 	else if (auto Under = Cast<AObstacle>(OutHitUnder.GetActor()))
 	{
 		Under->PerformAction();
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Hit")));
 	}
 
 }
@@ -147,7 +158,7 @@ FVector AControlledCube::SetTraceEndDirection()
 void AControlledCube::OnIdle()
 {
 	if (!SimpleMovementComponent || !StateManager)
-		return
+		return;
 
 	SimpleMovementComponent->SetMoveSpeed(0);
 	StateManager->SetState(ECubeState::ECS_Idle);
@@ -163,6 +174,10 @@ void AControlledCube::CheckState()
 
 	if (GetCubeState() == ECubeState::ECS_None)
 	{
+		
+		if (SimpleMovementComponent->GetMovesToMake().IsEmpty())
+			return;
+
 		SimpleMovementComponent->GetMovesToMake()[0]->Move();
 	}
 	else if (GetCubeState() == ECubeState::ECS_Idle)
@@ -216,7 +231,12 @@ void AControlledCube::SetCubeState(ECubeState NewState)
 
 void AControlledCube::OnDeath()
 {
-	//VFX / SFX here
+	if (DeathMesh && DeathVFX)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), DeathVFX, GetActorLocation(), GetActorRotation(), FVector::OneVector);
+		CubeMesh->SetStaticMesh(DeathMesh);
+	}
+
 	SetCubeState(ECubeState::ECS_Idle);
 	CubeController->CreateLoseScreen();
 }

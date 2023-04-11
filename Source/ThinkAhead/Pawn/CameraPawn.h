@@ -45,24 +45,19 @@ protected:
 	float ZoomOutLimit;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Zoom")
-	float OrthoZoom;
+	float OrthoFOV;
 	UPROPERTY(EditDefaultsOnly, Category = "Zoom")
-	float PerspectiveZoom;
+	float PerspectiveFOV;
 
-	void UpdateFOV(float PreviousFov);
-	FTimerHandle TransitionHandle;
-
-	UPROPERTY(EditDefaultsOnly, Category="Zoom")
-	float LerpDuration;
-
-	float TargetFov;
-
-	void LerpToMaxZoom();
-	FTimerHandle ZoomHandle;
-	bool bStartZoom;
+	UPROPERTY(EditDefaultsOnly, Category = "Zoom")
+	float OrthZoomLimit;
+	UPROPERTY(EditDefaultsOnly, Category = "Zoom")
+	float PerspectiveZoomLimit;
 
 private:	
 
 	class AControlledCube* PlayersCube;
 	void CheckOrtho();
+
+	class UThinkAheadGameInstance* GameInstance;
 };

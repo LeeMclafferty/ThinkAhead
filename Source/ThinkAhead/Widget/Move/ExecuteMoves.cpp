@@ -31,7 +31,9 @@ void UExecuteMoves::Execute()
 	if (!ContainingBox)
 		return;
 	
-	/* TODO: Execute the move, once cube is idle, execute next move. */
+	if (ContainingBox->GetChildrenCount() < 1)
+		return;
+
 	for (int i = 0; i < ContainingBox->GetChildrenCount(); i++)
 	{
 		USinglePieceContainer* SingleContainer = Cast<USinglePieceContainer>(ContainingBox->GetChildAt(i));

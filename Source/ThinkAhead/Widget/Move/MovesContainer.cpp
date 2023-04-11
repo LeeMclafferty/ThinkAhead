@@ -12,19 +12,16 @@
 #include "ThinkAhead/Widget/GamePiece/MovePiece.h"
 #include "ThinkAhead/Widget/Move/SinglePieceContainer.h"
 #include "ThinkAhead/ThinkAheadGameModeBase.h"
+#include "ThinkAhead/Gamemode/LevelGamemode.h"
 
 void UMovesContainer::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-
-	AThinkAheadGameModeBase* Gm = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	ALevelGamemode* Gm = Cast<ALevelGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	ConstructMoveToContainer(Gm);
 	ConstructMoveFromContainer(Gm);
-
-
-
 }
 
 bool UMovesContainer::NativeOnDrop(const FGeometry& InGeomtry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
@@ -64,7 +61,7 @@ bool UMovesContainer::AddMovePiece(class UMovePiece* ToAdd)
 	return false;
 }
 
-void UMovesContainer::ConstructMoveFromContainer(class AThinkAheadGameModeBase* GameMode)
+void UMovesContainer::ConstructMoveFromContainer(class ALevelGamemode* GameMode)
 {
 	if (ContainerType != EContainerType::ECT_MoveFrom || !GameMode)
 		return;
@@ -77,13 +74,12 @@ void UMovesContainer::ConstructMoveFromContainer(class AThinkAheadGameModeBase* 
 		{
 			USinglePieceContainer* CurrContainer = CreateWidget<USinglePieceContainer>(this, PieceContatinerClass);
 			MovesPanelBox->AddChild(CurrContainer);
-
 			CurrContainer->HoldPiece(GameMode->GetStartingPieces()[i]);
 		}
 	}
 }
 
-void UMovesContainer::ConstructMoveToContainer(class AThinkAheadGameModeBase* GameMode)
+void UMovesContainer::ConstructMoveToContainer(class ALevelGamemode* GameMode)
 {
 	if (ContainerType != EContainerType::ECT_MoveTo || !GameMode)
 		return;
