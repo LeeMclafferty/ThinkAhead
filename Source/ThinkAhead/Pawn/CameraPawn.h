@@ -15,10 +15,6 @@ public:
 	ACameraPawn();
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintPure)
-	class AControlledCube* GetPlayerCube() { return PlayersCube; }
-	void SetPlayerCube( AControlledCube* NewCube);
-
 	void ChangePerspctive();
 	void SwapZoomOutLimit();
 protected:

@@ -21,4 +21,9 @@ private:
 
 	class ACubeController* PlayerController;
 
+	UPROPERTY(EditDefaultsOnly, Category="Death")
+	class UStaticMesh* DeathMesh;
+	UPROPERTY(EditDefaultsOnly, Category = "Death")
+	class UNiagaraSystem* DeathVFX;
+
 };

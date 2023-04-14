@@ -23,13 +23,18 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* ObstacleMesh;
+	UPROPERTY(VisibleAnywhere)
+	class UDetectionComponent* DetectionComponent;
 
-	class ACameraPawn* PlayerPawn;
+	class ACubeController* PlayerController;
 	class AControlledCube* PlayerCube;
 
 	class AGridTile* GetPlayersCurrentTile();
+	AGridTile* CurrentTile;
 
 private:
+
+	void SetStartingTile();
 
 
 };

@@ -11,11 +11,11 @@ AButtonTrigger::AButtonTrigger()
 
 void AButtonTrigger::PerformAction()
 {
-	if (bHasTriggered)
+	if (bHasTriggered || !ToInteractWith)
 		return;
 
 	Super::PerformAction();
 	bHasTriggered = true;
 
-	// TODO: Start Timer, Make Cube invincible, destroy obstacles that you come in contact with for the duration, make flashing material. 
+	ToInteractWith->Destroy();
 }

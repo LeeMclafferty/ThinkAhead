@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
@@ -13,6 +12,7 @@
 #include "ThinkAhead/Controller/CubeController.h"
 #include "ThinkAhead/Widget/Move/ExecuteMoves.h"
 #include "ThinkAhead/ActorComponet/SimpleMovement.h"
+#include "ThinkAhead/ActorComponet/DetectionComponent.h"
 
 AControlledCube::AControlledCube()
 	:CheckReach(100.f), bIsGameStarted(false)
@@ -27,6 +27,7 @@ AControlledCube::AControlledCube()
 
 	SimpleMovementComponent = CreateDefaultSubobject<USimpleMovement>(TEXT("SimpleMovementComponent"));
 	StateManager = CreateDefaultSubobject<UStateManager>(TEXT("StateManager"));
+	DetectionComponent = CreateDefaultSubobject<UDetectionComponent>(TEXT("DetectionComponent"));
 }
 
 void AControlledCube::Tick(float DeltaTime)
@@ -46,12 +47,12 @@ void AControlledCube::Tick(float DeltaTime)
 		if (GetCubeState() != ECubeState::ECS_Idle)
 		{
 			CheckForObstacle();
-			SetCurrentTile();
+			DetectionComponent->SetCurrentTile();
 		}
 		
 		CheckState();
 
-		if (!CurrentTile)
+		if (!DetectionComponent->GetCurrentTile())
 		{
 			OnDeath();
 		}
@@ -68,51 +69,16 @@ void AControlledCube::BeginPlay()
 	{
 		CubeController->SetControlledCube(this);
 	}
-}
 
-void AControlledCube::SetCurrentTile()
-{
-	FHitResult OutHit = TraceUnderCube(ECC_GameTraceChannel2);
-
-	if (auto TileActor = Cast<AGridTile>(OutHit.GetActor()))
-	{
-		if (TileActor == CurrentTile)
-			return;
-
-		CurrentTile = TileActor;
-	}
-}
-
-FHitResult AControlledCube::TraceUnderCube(ECollisionChannel TraceChannel)
-{
-	FVector StartLocation = GetActorLocation();
-	FVector EndLocation = GetActorLocation() - FVector(0.f, 0.f, 100.f);
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	FHitResult OutHit;
-
-	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, TraceChannel, Params);
-
-	return OutHit;
-}
-
-FHitResult AControlledCube::TraceInFrontCube(ECollisionChannel TraceChannel)
-{
-	FVector StartLocation = FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z + 50.f);
-	FVector EndLocation = SetTraceEndDirection();
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	FHitResult OutHit;
-
-	GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, TraceChannel, Params);
-	return OutHit;
+	DetectionComponent->SetCurrentTile();
+	SetActorLocation(DetectionComponent->GetCurrentTile()->GetTileCenter());
 }
 
 void AControlledCube::CheckForObstacle()
 {
 
-	FHitResult OutHitFront = TraceInFrontCube(ECC_GameTraceChannel1);
-	FHitResult OutHitUnder = TraceUnderCube(ECC_GameTraceChannel1);
+	FHitResult OutHitFront = DetectionComponent->TraceInFrontActor(ECC_GameTraceChannel1, SetTraceEndDirection());
+	FHitResult OutHitUnder = DetectionComponent->TraceUnderActor(ECC_GameTraceChannel1);
 
 	if (auto Front = Cast<AObstacle>(OutHitFront.GetActor()))
 	{
@@ -121,9 +87,7 @@ void AControlledCube::CheckForObstacle()
 	else if (auto Under = Cast<AObstacle>(OutHitUnder.GetActor()))
 	{
 		Under->PerformAction();
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Hit")));
 	}
-
 }
 
 FVector AControlledCube::SetTraceEndDirection()
@@ -231,13 +195,15 @@ void AControlledCube::SetCubeState(ECubeState NewState)
 
 void AControlledCube::OnDeath()
 {
-	if (DeathMesh && DeathVFX)
-	{
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), DeathVFX, GetActorLocation(), GetActorRotation(), FVector::OneVector);
+	if (DeathMesh)
 		CubeMesh->SetStaticMesh(DeathMesh);
-	}
-
+	
+	if(DeathVFX)
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), DeathVFX, GetActorLocation(), GetActorRotation(), FVector::OneVector);
+	
+	SimpleMovementComponent->ClearMovesToMake();
 	SetCubeState(ECubeState::ECS_Idle);
+	
 	CubeController->CreateLoseScreen();
 }
 

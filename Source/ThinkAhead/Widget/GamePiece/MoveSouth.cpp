@@ -3,7 +3,7 @@
 
 #include "ThinkAhead/Widget/GamePiece/MoveSouth.h"
 
-#include "ThinkAhead/Pawn/CameraPawn.h"
+#include "ThinkAhead/Controller/CubeController.h"
 #include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
 #include "ThinkAhead/ActorComponet/SimpleMovement.h"
 
@@ -16,11 +16,11 @@ void UMoveSouth::Move()
 {
 	Super::Move();
 
-	if (!PlayerPawn || !PlayerCube)
+	if (!PlayerController || !PlayerCube)
 		return;
 
-	PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->LookSouth();
+	PlayerController->GetControlledCube()->GetSimpleMovementComp()->LookSouth();
 
-	PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->SetMoveSpeed(Speed * -1);
-	PlayerPawn->GetPlayerCube()->SetCubeState(ECubeState::ECS_MovingNorthSouth);
+	PlayerController->GetControlledCube()->GetSimpleMovementComp()->SetMoveSpeed(Speed * -1);
+	PlayerController->GetControlledCube()->SetCubeState(ECubeState::ECS_MovingNorthSouth);
 }

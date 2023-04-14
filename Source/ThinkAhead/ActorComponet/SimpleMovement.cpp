@@ -75,3 +75,8 @@ void USimpleMovement::SetCurrentMove(class UMovePiece* NewCurrent)
 {
 	CurrentMove = NewCurrent;
 }
+
+void USimpleMovement::ClearMovesToMake()
+{
+	MovesToMake.Empty();
+}

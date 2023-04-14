@@ -27,6 +27,8 @@ void AKillSpace::PerformAction()
  	if (!GetPlayersCurrentTile())
  		return;
 
+	PlayerCube->SetDeathMesh(DeathMesh);
+	PlayerCube->SetDeathVFX(DeathVFX);
 	PlayerCube->OnDeath();
-	Destroy();
+
 }

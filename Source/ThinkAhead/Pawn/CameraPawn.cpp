@@ -76,12 +76,6 @@ void ACameraPawn::Tick(float DeltaTime)
 
 }
 
-void ACameraPawn::SetPlayerCube(AControlledCube* NewCube)
-{
-	PlayersCube = NewCube;
-}
-
-
 void ACameraPawn::CheckOrtho()
 {
 	ChangePerspctive();

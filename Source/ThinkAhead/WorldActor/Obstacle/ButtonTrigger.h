@@ -18,8 +18,11 @@ public:
 	AButtonTrigger();
 
 	void PerformAction() override;
+	AObstacle* GetToInteractWith() { return ToInteractWith; }
 
 private:
 	bool bHasTriggered;
+	UPROPERTY(EditAnywhere, Category="Init")
+	AObstacle* ToInteractWith;
 
 };

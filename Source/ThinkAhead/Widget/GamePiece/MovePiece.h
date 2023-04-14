@@ -31,11 +31,12 @@ protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UImage* ActionImg;
 
-	class ACameraPawn* PlayerPawn;
+	class ACubeController* PlayerController;
 	class AControlledCube* PlayerCube;
 
 	bool bHasActivated;
 
 	UPROPERTY(EditDefaultsOnly)
 	float Speed;
+
 };

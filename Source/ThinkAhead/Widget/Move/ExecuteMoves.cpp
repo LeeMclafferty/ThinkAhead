@@ -11,19 +11,20 @@
 #include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
 #include "ThinkAhead/Pawn/CameraPawn.h"
 #include "ThinkAhead/ActorComponet/SimpleMovement.h"
+#include "ThinkAhead/Controller/CubeController.h"
 
 void UExecuteMoves::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	PlayerPawn = Cast<ACameraPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	PlayerController = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }
 
 void UExecuteMoves::Execute()
 {
 	UMovesContainer* OwningContainer = Cast<UMovesContainer>(GetParent()->GetOuter()->GetOuter());
 
-	if (!OwningContainer || PlayerPawn->GetPlayerCube()->IsGameStarted())
+	if (!OwningContainer || PlayerController->GetControlledCube()->IsGameStarted())
 		return;
 
 	UPanelWidget* ContainingBox = OwningContainer->GetMovesPanelBox();
@@ -37,7 +38,7 @@ void UExecuteMoves::Execute()
 	for (int i = 0; i < ContainingBox->GetChildrenCount(); i++)
 	{
 		USinglePieceContainer* SingleContainer = Cast<USinglePieceContainer>(ContainingBox->GetChildAt(i));
-		if (!SingleContainer || !PlayerPawn)
+		if (!SingleContainer || !PlayerController)
 			break;
 
 		UMovePiece* CurrentMove = SingleContainer->GetHeldPiece();
@@ -45,12 +46,12 @@ void UExecuteMoves::Execute()
 		if (!CurrentMove)
 			break;
 
-		if (PlayerPawn->GetPlayerCube())
+		if (PlayerController->GetControlledCube())
 		{
-			PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->AddMoveToMake(CurrentMove);
+			PlayerController->GetControlledCube()->GetSimpleMovementComp()->AddMoveToMake(CurrentMove);
 		}
 
-		PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->SetCurrentMove(PlayerPawn->GetPlayerCube()->GetSimpleMovementComp()->GetMovesToMake()[0]);
+		PlayerController->GetControlledCube()->GetSimpleMovementComp()->SetCurrentMove(PlayerController->GetControlledCube()->GetSimpleMovementComp()->GetMovesToMake()[0]);
 	}
 
 	OnExecute.Broadcast();

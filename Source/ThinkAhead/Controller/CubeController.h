@@ -19,6 +19,7 @@ public:
 
 	virtual void BeginPlay() override;
 	class UExecuteMoves* GetExecuteButton() { return ExecuteButton; }
+	class AControlledCube* GetControlledCube() { return ControlledCube; }
 
 	void SetControlledCube(class AControlledCube* NewCube);
 
@@ -27,6 +28,7 @@ protected:
 
 private:
 	class UExecuteMoves* ExecuteButton;
+	UPROPERTY(VisibleAnywhere)
 	class AControlledCube* ControlledCube;
 	
 };

@@ -36,7 +36,6 @@ bool UMovesContainer::NativeOnDrop(const FGeometry& InGeomtry, const FDragDropEv
 	if (!MovePiecePayload)
 		return false;
 
-
 	return AddMovePiece(MovePiecePayload);
 }
 

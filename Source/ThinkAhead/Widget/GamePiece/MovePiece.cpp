@@ -7,7 +7,7 @@
 #include "Input/Reply.h"
 #include "Components/PanelWidget.h"
 
-#include "ThinkAhead/Pawn/CameraPawn.h"
+#include "ThinkAhead/Controller/CubeController.h"
 #include "ThinkAhead/Widget/Move/SinglePieceContainer.h"
 #include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
 
@@ -15,19 +15,11 @@ void UMovePiece::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (ACameraPawn* PP = Cast<ACameraPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0)))
-	{
-		PlayerPawn = PP;
-	}
 	bHasActivated = false;
-	
-
-	
 }
 
 void UMovePiece::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
-
 	USinglePieceContainer* Owner = Cast<USinglePieceContainer>(GetParent()->GetOuter()->GetOuter());
 
 	UDragDropOperation* DragDropOp = NewObject<UDragDropOperation>();
@@ -60,15 +52,15 @@ FReply UMovePiece::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FP
 
 void UMovePiece::Move()
 {
-	if (ACameraPawn* PP = Cast<ACameraPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0)))
+	if (ACubeController* Controller = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
-		if (PP->GetPlayerCube())
+		if (Controller->GetControlledCube())
 		{
-			PlayerPawn = PP;
+			PlayerController = Controller;
 			bHasActivated = true;
 		}
 	}
-	if (AControlledCube* CC = Cast<AControlledCube>(PlayerPawn->GetPlayerCube()))
+	if (AControlledCube* CC = Cast<AControlledCube>(PlayerController->GetControlledCube()))
 	{
 		PlayerCube = CC;
 	}

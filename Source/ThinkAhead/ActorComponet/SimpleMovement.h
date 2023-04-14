@@ -29,6 +29,7 @@ public:
 	TArray<class UMovePiece*> GetMovesToMake() { return MovesToMake; }
 	void AddMoveToMake(class UMovePiece* AddMove);
 	void SetCurrentMove(class UMovePiece* NewCurrent);
+	void ClearMovesToMake();
 
 protected:
 	virtual void BeginPlay() override;

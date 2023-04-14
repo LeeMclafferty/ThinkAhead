@@ -5,9 +5,10 @@
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-#include "ThinkAhead/Pawn/CameraPawn.h"
+#include "ThinkAhead/Controller/CubeController.h"
 #include "ThinkAhead/WorldActor/Controlled/ControlledCube.h"
 #include "ThinkAhead/WorldActor/Grid/GridTile.h"
+#include "ThinkAhead/ActorComponet/DetectionComponent.h"
 
 AObstacle::AObstacle()
 {
@@ -15,25 +16,35 @@ AObstacle::AObstacle()
 
 	ObstacleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ObstacleMesh"));
 	ObstacleMesh->SetCollisionProfileName(FName("Obstacle"));
+
+	DetectionComponent = CreateDefaultSubobject<UDetectionComponent>(TEXT("DetectionComponent"));
 }
 
 void AObstacle::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SetStartingTile();
 }
 
 AGridTile* AObstacle::GetPlayersCurrentTile()
 {
-	return PlayerCube->GetCurrentTile();
+	return PlayerCube->GetDetectionComponent()->GetCurrentTile();
+}
+
+void AObstacle::SetStartingTile()
+{
+	DetectionComponent->SetCurrentTile();
+
+	if(DetectionComponent->GetCurrentTile())
+		SetActorLocation(DetectionComponent->GetCurrentTile()->GetTileCenter());
 }
 
 void AObstacle::PerformAction()
 {
-	if (ACameraPawn* PP = Cast<ACameraPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0)))
+	if (ACubeController* Controller = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
 	{
-		PlayerPawn = PP;
-		PlayerCube = PlayerPawn->GetPlayerCube();
+		PlayerController = Controller;
+		PlayerCube = PlayerController->GetControlledCube();
 	}
 
 	if (!PlayerCube)

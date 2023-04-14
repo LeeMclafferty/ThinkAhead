@@ -30,11 +30,13 @@ public:
 	ECubeState GetCubeState();
 	void SetCubeState(ECubeState NewState);
 
-	class AGridTile* GetCurrentTile() { return CurrentTile; }
-
 	bool IsGameStarted() { return bIsGameStarted; }
 
 	void OnDeath();
+	class UDetectionComponent* GetDetectionComponent() { return DetectionComponent; }
+
+	void SetDeathMesh(class UStaticMesh* Mesh) { DeathMesh = Mesh; }
+	void SetDeathVFX(class UNiagaraSystem* VFX) { DeathVFX = VFX; }
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,14 +47,8 @@ private:
 	class UStaticMeshComponent* CubeMesh;
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* MovementBox;
-
-	UPROPERTY(VisibleAnywhere, Category="CubeMovement")
-	class AGridTile* CurrentTile;
-	void SetCurrentTile();
-
-	FHitResult TraceUnderCube(ECollisionChannel TraceChannel);
-
-	FHitResult TraceInFrontCube(ECollisionChannel TraceChannel);
+	UPROPERTY(VisibleAnywhere)
+	class UDetectionComponent* DetectionComponent;
 
 	int32 CheckReach;
 	void CheckForObstacle();

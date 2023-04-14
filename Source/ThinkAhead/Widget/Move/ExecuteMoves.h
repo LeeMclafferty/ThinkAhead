@@ -25,6 +25,6 @@ public:
 
 private:
 
-	class ACameraPawn* PlayerPawn;
+	class ACubeController* PlayerController;
 	
 };
