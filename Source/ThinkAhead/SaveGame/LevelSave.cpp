@@ -16,8 +16,10 @@ void ULevelSave::SaveUnlockedLevels(TArray<FName> Levels)
 	UnlockedLevels = Levels;
 }
 
-void ULevelSave::SaveSettings(bool bIsOrthoSet)
+void ULevelSave::SaveSettings(bool bIsOrthoSet, bool bSoundEnabled, bool bMusicEnabled)
 {
 	bIsOrtho = bIsOrthoSet;
+	bHasSound = bSoundEnabled;
+	bHasMusic = bMusicEnabled;
 }
 

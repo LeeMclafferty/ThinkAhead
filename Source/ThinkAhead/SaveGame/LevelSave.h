@@ -21,8 +21,10 @@ public:
 
 	void SaveUnlockedLevels(TArray<FName> Levels);
 	TArray<FName> GetUnlockedLevels() { return UnlockedLevels; }
-	void SaveSettings(bool bIsOrthoSet);
+	void SaveSettings(bool bIsOrthoSet, bool bSoundEnabled, bool bMusicEnabled);
 	bool IsOrtho() { return bIsOrtho; }
+	bool HasSound() { return bHasSound; }
+	bool HasMusic() { return bHasMusic; }
 
 protected:
 	UPROPERTY()
@@ -30,5 +32,9 @@ protected:
 
 	UPROPERTY()
 	bool bIsOrtho;
+	UPROPERTY()
+	bool bHasSound;
+	UPROPERTY()
+	bool bHasMusic;
 	
 };

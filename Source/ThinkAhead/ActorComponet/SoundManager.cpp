@@ -5,6 +5,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 
+#include "ThinkAhead/GameInstance/ThinkAheadGameInstance.h"
+
 USoundManager::USoundManager()
 :MusicVolume(.1f), SoundsVolume(.05f)
 {
@@ -26,22 +28,34 @@ void USoundManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 void USoundManager::StopAmbientSounds()
 {
-	if (NatureAudioComp)
+		
+	if (NatureAudioComp->IsPlaying() && StreamAudioComp->IsPlaying())
+	{
 		NatureAudioComp->Stop();
-
-	if (StreamAudioComp)
 		StreamAudioComp->Stop();
+	}
+	
+	
+		
 }
 
 void USoundManager::StopMusic()
 {
-	if (BackgroundMusic)
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Stop")));
+	if (MusicAudioComp->IsPlaying())
+	{
 		MusicAudioComp->Stop();
+	}
 }
 
 void USoundManager::PlayAmbientSounds()
 {
-	if (!NatureSound || !StreamSound)
+	UThinkAheadGameInstance* GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!NatureSound || !StreamSound || !GameInst)
+		return;
+
+	if (!GameInst->IsSoundOn())
 		return;
 
 	NatureAudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), (USoundBase*)NatureSound, SoundsVolume);
@@ -50,7 +64,12 @@ void USoundManager::PlayAmbientSounds()
 
 void USoundManager::PlayMusic()
 {
-	if (!BackgroundMusic)
+	UThinkAheadGameInstance* GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!BackgroundMusic || !GameInst)
+		return;
+
+	if (!GameInst->IsMusicOn())
 		return;
 
 	MusicAudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), (USoundBase*)BackgroundMusic, MusicVolume);

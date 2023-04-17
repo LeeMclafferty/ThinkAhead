@@ -36,6 +36,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void OpenLevel();
+	UFUNCTION(BlueprintPure)
+	bool CanOpenLevel();
 
 	UPROPERTY(EditAnywhere, Category="Level")
 	ULevel* Level;

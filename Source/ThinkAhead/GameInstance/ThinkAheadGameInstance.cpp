@@ -7,7 +7,7 @@
 #include "ThinkAhead/SaveGame/LevelSave.h"
 
 UThinkAheadGameInstance::UThinkAheadGameInstance()
-	:bIsOrtho(false), bIsMusicOn(true), bIsSoundsOn(true)
+:bIsOrtho(false), bIsMusicOn(true), bIsSoundsOn(true)
 {
 	UnlockLevel(FName("Level1"));
 }
@@ -25,7 +25,7 @@ void UThinkAheadGameInstance::SaveGame()
 	}
 
 	LevelSave->SaveUnlockedLevels(UnlockedLevels);
-	LevelSave->SaveSettings(bIsOrtho);
+	LevelSave->SaveSettings(bIsOrtho, bIsSoundsOn, bIsMusicOn);
 	UGameplayStatics::SaveGameToSlot(LevelSave, "Default", 0);
 
 }
@@ -38,6 +38,8 @@ void UThinkAheadGameInstance::LoadGame()
 	{
 		UnlockedLevels = LevelSave->GetUnlockedLevels();
 		bIsOrtho = LevelSave->IsOrtho();
+		bIsSoundsOn = LevelSave->HasSound();
+		bIsMusicOn = LevelSave->HasMusic();
 	}
 }
 

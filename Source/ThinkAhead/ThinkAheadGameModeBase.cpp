@@ -57,7 +57,7 @@ void AThinkAheadGameModeBase::ToggleSounds()
 
 	if (!GameInst)
 		return;
-
+	
 	bool bIsSound = (GameInst->IsSoundOn()) ? false : true;
 	GameInst->SetIsSoundOn(bIsSound);
 }

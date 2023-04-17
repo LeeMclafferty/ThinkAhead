@@ -14,13 +14,18 @@ void ULevelCard::NativeConstruct()
 
 void ULevelCard::OpenLevel()
 {
-	auto GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	if (!GameInst)
-		return;
-
-	if (GameInst->IsLevelUnlocked(LevelToOpen))
+	if (CanOpenLevel())
 	{
 		UGameplayStatics::OpenLevel(GetWorld(), LevelToOpen);
 	}
+}
+
+bool ULevelCard::CanOpenLevel()
+{
+	auto GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!GameInst)
+		return false;
+	
+	return GameInst->IsLevelUnlocked(LevelToOpen);
 }

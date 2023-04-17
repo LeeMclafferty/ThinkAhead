@@ -25,7 +25,7 @@ public:
 	void SetIsOrtho(bool bIsOrthEnabled) { bIsOrtho = bIsOrthEnabled; }
 	bool IsOrtho() { return bIsOrtho; }
 
-	void SetIsSoundOn(bool bIsSoundEnabled) { bIsSoundEnabled = bIsSoundEnabled; }
+	void SetIsSoundOn(bool bIsSoundEnabled) { bIsSoundsOn = bIsSoundEnabled; }
 	bool IsSoundOn() { return bIsSoundsOn; }
 
 	void SetIsMusicOn(bool bIsMusicEnabled) { bIsMusicOn = bIsMusicEnabled; }

@@ -50,13 +50,15 @@ void UOptionsMenu::ToggleOrthoCamera()
 void UOptionsMenu::ToggleMusic()
 {
 	auto Gamemode = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	
-	if (!Gamemode)
+	auto GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (!Gamemode || !GameInst)
 		return;
 
-	float NewVolume = (Gamemode->GetSoundManager()->GetMusicVolume() == .1f) ? 0.f : .1f;
-	Gamemode->GetSoundManager()->SetMusicVolume(NewVolume);
-	if (NewVolume == 0.f)
+	Gamemode->ToggleMusic();
+	bool bTurnMusicOn = GameInst->IsMusicOn();
+
+	if (!bTurnMusicOn)
 	{
 		Gamemode->GetSoundManager()->StopMusic();
 	}
@@ -71,14 +73,15 @@ void UOptionsMenu::ToggleMusic()
 void UOptionsMenu::ToggleSounds()
 {
 	auto Gamemode = Cast<AThinkAheadGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	auto GameInst = Cast<UThinkAheadGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	if (!Gamemode)
+	if (!Gamemode || !GameInst)
 		return;
 
-	float NewVolume = (Gamemode->GetSoundManager()->GetSoundVolume() == .1f) ? 0.f : .1f;
-	Gamemode->GetSoundManager()->SetSoundVolume(NewVolume);
+	Gamemode->ToggleSounds();
+	bool bTurnSoundOn = GameInst->IsSoundOn();
 
-	if (NewVolume == 0.f)
+	if (!bTurnSoundOn)
 	{
 		Gamemode->GetSoundManager()->StopAmbientSounds();
 	}
@@ -86,7 +89,7 @@ void UOptionsMenu::ToggleSounds()
 	{
 		Gamemode->GetSoundManager()->PlayAmbientSounds();
 	}
-
+	
 	SaveChanges();
 }
 
