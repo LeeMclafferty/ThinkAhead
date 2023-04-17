@@ -23,6 +23,13 @@ public:
 	FName GetNextLevelName() { return NextLevelName; }
 
 	void ToggleOrtho();
+	void ToggleMusic();
+	void ToggleSounds();
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bShouldPlayTransition;
+
+	class USoundManager* GetSoundManager() { return SoundManager; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -33,4 +40,7 @@ protected:
 
 private:
 	void LoadGame();
+
+	UPROPERTY(VisibleAnywhere)
+	class USoundManager* SoundManager;
 };

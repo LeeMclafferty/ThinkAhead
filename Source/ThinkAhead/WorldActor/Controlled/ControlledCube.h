@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright © 2023 Lee Mclafferty. All rights reserved. This code is the property of Lee Mclafferty and may not be used for resale, redistribution, or for the purpose of making a profit without written consent from the owner.
 
 #pragma once
 
@@ -37,6 +37,7 @@ public:
 
 	void SetDeathMesh(class UStaticMesh* Mesh) { DeathMesh = Mesh; }
 	void SetDeathVFX(class UNiagaraSystem* VFX) { DeathVFX = VFX; }
+	void SetDeathSound(class USoundCue* Sound) { DeathSound = Sound; }
 protected:
 	virtual void BeginPlay() override;
 
@@ -67,4 +68,14 @@ private:
 	class UStaticMesh* DeathMesh;
 	UPROPERTY(EditDefaultsOnly, Category = "OnDeath")
 	class UNiagaraSystem* DeathVFX;
+	UPROPERTY(EditDefaultsOnly, Category = "OnDeath")
+	class USoundCue* DeathSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sounds")
+	TArray<USoundCue*> SnortSounds;
+
+	void PlayRandomSnort();
+	float SnortSoundTimer;
+	UPROPERTY(EditDefaultsOnly, Category = "Sounds")
+	float SnortSoundFrequency;
 };

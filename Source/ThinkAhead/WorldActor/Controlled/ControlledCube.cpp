@@ -15,7 +15,7 @@
 #include "ThinkAhead/ActorComponet/DetectionComponent.h"
 
 AControlledCube::AControlledCube()
-	:CheckReach(100.f), bIsGameStarted(false)
+	:CheckReach(100.f), bIsGameStarted(false), SnortSoundFrequency(10.f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -56,6 +56,10 @@ void AControlledCube::Tick(float DeltaTime)
 		{
 			OnDeath();
 		}
+	}
+	if (GetWorld()->TimeSince(SnortSoundTimer) > SnortSoundFrequency)
+	{
+		PlayRandomSnort();
 	}
 }
 
@@ -126,6 +130,16 @@ void AControlledCube::OnIdle()
 
 	SimpleMovementComponent->SetMoveSpeed(0);
 	StateManager->SetState(ECubeState::ECS_Idle);
+}
+
+void AControlledCube::PlayRandomSnort()
+{
+	int32 Index = FMath::RandRange(0, SnortSounds.Num() - 1);
+	USoundCue* Snort = SnortSounds[Index];
+	SnortSoundTimer = GetWorld()->GetTimeSeconds();
+
+	if (Snort)
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), (USoundBase*)Snort, GetActorLocation(), .3, 1.4);
 }
 
 void AControlledCube::CheckState()
@@ -200,6 +214,9 @@ void AControlledCube::OnDeath()
 	
 	if(DeathVFX)
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), DeathVFX, GetActorLocation(), GetActorRotation(), FVector::OneVector);
+	
+	if (DeathSound)
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), (USoundBase*)DeathSound, GetActorLocation());
 	
 	SimpleMovementComponent->ClearMovesToMake();
 	SetCubeState(ECubeState::ECS_Idle);

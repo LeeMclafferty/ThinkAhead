@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright © 2023 Lee Mclafferty. All rights reserved. This code is the property of Lee Mclafferty and may not be used for resale, redistribution, or for the purpose of making a profit without written consent from the owner.
 
 
 #include "ThinkAhead/WorldActor/Obstacle/Obstacle.h"
@@ -26,6 +26,12 @@ void AObstacle::BeginPlay()
 	SetStartingTile();
 }
 
+void AObstacle::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
 AGridTile* AObstacle::GetPlayersCurrentTile()
 {
 	return PlayerCube->GetDetectionComponent()->GetCurrentTile();
@@ -39,6 +45,7 @@ void AObstacle::SetStartingTile()
 		SetActorLocation(DetectionComponent->GetCurrentTile()->GetTileCenter());
 }
 
+
 void AObstacle::PerformAction()
 {
 	if (ACubeController* Controller = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0)))
@@ -50,13 +57,16 @@ void AObstacle::PerformAction()
 	if (!PlayerCube)
 		return;
 
+	PlayContactSound();
 	FVector TileCenter = GetPlayersCurrentTile()->GetTileCenter();
 	PlayerCube->SetActorLocation(TileCenter);
 }
 
-void AObstacle::Tick(float DeltaTime)
+
+void AObstacle::PlayContactSound()
 {
-	Super::Tick(DeltaTime);
+	if (!ContactSound)
+		return;
 
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), (USoundBase*)ContactSound, GetActorLocation(), .3);
 }
-

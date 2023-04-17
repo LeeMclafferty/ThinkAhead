@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright © 2023 Lee Mclafferty. All rights reserved. This code is the property of Lee Mclafferty and may not be used for resale, redistribution, or for the purpose of making a profit without written consent from the owner.
 
 #pragma once
 
@@ -25,5 +25,7 @@ private:
 	class UStaticMesh* DeathMesh;
 	UPROPERTY(EditDefaultsOnly, Category = "Death")
 	class UNiagaraSystem* DeathVFX;
+	UPROPERTY(EditDefaultsOnly, Category = "Death")
+	class USoundCue* DeathSound;
 
 };
