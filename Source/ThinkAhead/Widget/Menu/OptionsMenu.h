@@ -37,6 +37,8 @@ protected:
 	void ToggleMusic();
 	UFUNCTION(BlueprintCallable)
 	void ToggleSounds();
+	UFUNCTION(BlueprintCallable)
+	void OnPressExit();
 
 	void SaveChanges();
 	

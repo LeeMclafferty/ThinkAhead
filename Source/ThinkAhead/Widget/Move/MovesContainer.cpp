@@ -20,8 +20,8 @@ void UMovesContainer::NativeConstruct()
 
 	ALevelGamemode* Gm = Cast<ALevelGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
 
-	ConstructMoveToContainer(Gm);
 	ConstructMoveFromContainer(Gm);
+	ConstructMoveToContainer(Gm);
 }
 
 bool UMovesContainer::NativeOnDrop(const FGeometry& InGeomtry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
@@ -57,7 +57,6 @@ bool UMovesContainer::AddMovePiece(class UMovePiece* ToAdd)
 
 			return true;
 		}
-
 	}
 
 	return false;
@@ -72,11 +71,24 @@ void UMovesContainer::ConstructMoveFromContainer(class ALevelGamemode* GameMode)
 
 	if (PieceContatinerClass)
 	{
-		for (int32 i = 0; i < ContainerSize; i++)
+		if (!GameMode->GetStartingPieces().IsEmpty())
 		{
-			USinglePieceContainer* CurrContainer = CreateWidget<USinglePieceContainer>(this, PieceContatinerClass);
-			MovesPanelBox->AddChild(CurrContainer);
-			CurrContainer->HoldPiece(GameMode->GetStartingPieces()[i]);
+			for (int32 i = 0; i < ContainerSize; i++)
+			{
+				USinglePieceContainer* CurrContainer = CreateWidget<USinglePieceContainer>(this, PieceContatinerClass);
+
+				if (!CurrContainer || !MovesPanelBox)
+					return;
+
+				MovesPanelBox->AddChild(CurrContainer);
+				CurrContainer->HoldPiece(GameMode->GetStartingPieces()[i]);
+
+			}
+		}
+		else
+		{
+			GameMode->CreateStartingPieces();
+			ConstructMoveFromContainer(GameMode);
 		}
 	}
 }

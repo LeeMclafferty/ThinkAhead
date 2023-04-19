@@ -45,9 +45,11 @@ protected:
 
 	bool AddMovePiece(class UMovePiece* ToAdd);
 
-private:
+	UFUNCTION(BlueprintCallable)
 	void ConstructMoveFromContainer(class ALevelGamemode* GameMode);
+	UFUNCTION(BlueprintCallable)
 	void ConstructMoveToContainer(class ALevelGamemode* GameMode);
+private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Sounds")
 	class USoundCue* DropSound;

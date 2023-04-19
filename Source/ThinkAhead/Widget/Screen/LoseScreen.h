@@ -17,8 +17,17 @@ class THINKAHEAD_API ULoseScreen : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+	void PlayLoseSound();
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+	void StopLoseSound();
+
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* RestartButton;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	class USoundCue* LoseSound;
+	class UAudioComponent* LoseAudioComp;
 };

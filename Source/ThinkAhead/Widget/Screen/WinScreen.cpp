@@ -2,8 +2,24 @@
 
 
 #include "ThinkAhead/Widget/Screen/WinScreen.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 void UWinScreen::NativeConstruct()
 {
 
+}
+
+void UWinScreen::PlayWinSound()
+{
+	if (!WinSound)
+		return;
+
+	WinAudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), (USoundBase*)WinSound);
+}
+
+void UWinScreen::StopWinSound()
+{
+	if (WinAudioComp->IsPlaying())
+		WinAudioComp->Stop();
 }

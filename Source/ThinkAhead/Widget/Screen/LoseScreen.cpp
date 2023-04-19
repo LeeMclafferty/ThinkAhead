@@ -2,8 +2,24 @@
 
 
 #include "ThinkAhead/Widget/Screen/LoseScreen.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 void ULoseScreen::NativeConstruct()
 {
 
+}
+
+void ULoseScreen::PlayLoseSound()
+{
+	if (!LoseSound)
+		return;
+
+	LoseAudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), (USoundBase*)LoseSound);
+}
+
+void ULoseScreen::StopLoseSound()
+{
+	if (LoseAudioComp->IsPlaying())
+		LoseAudioComp->Stop();
 }

@@ -15,8 +15,6 @@ AMovementGrid::AMovementGrid()
 
 	Orgin = CreateDefaultSubobject<USphereComponent>(TEXT("Orgin"));
 	SetRootComponent(Orgin);
-
-	UE_LOG(LogTemp, Warning, TEXT("Gamemode Constructor"));
 }
 
 AMovementGrid::~AMovementGrid()

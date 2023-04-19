@@ -41,7 +41,6 @@ void USoundManager::StopAmbientSounds()
 
 void USoundManager::StopMusic()
 {
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Stop")));
 	if (MusicAudioComp->IsPlaying())
 	{
 		MusicAudioComp->Stop();

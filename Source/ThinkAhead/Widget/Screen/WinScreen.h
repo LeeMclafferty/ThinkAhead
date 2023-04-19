@@ -17,10 +17,17 @@ class THINKAHEAD_API UWinScreen : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+	void PlayWinSound();
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+	void StopWinSound();
+
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* NextLevel;
-	
 
+	UPROPERTY(EditDefaultsOnly, Category="Sound")
+	class USoundCue* WinSound;
+	class UAudioComponent* WinAudioComp;
 };

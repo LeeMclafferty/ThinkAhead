@@ -11,7 +11,7 @@
 ALevelGamemode::ALevelGamemode()
 :NumOfMovesToMake(4), NumMoveOptions(5)
 {
-	CreateStartingPieces();
+	
 }
 
 void ALevelGamemode::BeginPlay()

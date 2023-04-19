@@ -8,6 +8,8 @@
 #include "ThinkAhead/Widget/Screen/PlayerHud.h"
 #include "ThinkAhead/ThinkAheadGameModeBase.h"
 #include "ThinkAhead/Widget/Menu/OptionsMenu.h"
+#include "ThinkAhead/Widget/Screen/WinScreen.h"
+#include "ThinkAhead/Widget/Screen/LoseScreen.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -42,11 +44,19 @@ void AMyPlayerController::SetupWidget(TSubclassOf<UUserWidget> WidgetClass)
 void AMyPlayerController::CreateLoseScreen()
 {
 	SetupWidget(LoseScreenClass);
+
+	ULoseScreen* Screen = Cast<ULoseScreen>(CurrentWidget);
+	if (Screen)
+		Screen->PlayLoseSound();
 }
 
 void AMyPlayerController::CreateWinScreen()
 {
 	SetupWidget(WinScreenClass);
+
+	UWinScreen* Screen = Cast<UWinScreen>(CurrentWidget);
+	if (Screen)
+		Screen->PlayWinSound();
 }
 
 void AMyPlayerController::Tick(float DeltaTime)

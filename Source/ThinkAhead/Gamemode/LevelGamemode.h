@@ -23,6 +23,7 @@ public:
 	int32 GetNumMoveOptions() { return NumMoveOptions; }
 	UFUNCTION(BlueprintPure)
 	TArray<class UMovePiece*> GetStartingPieces() { return StaringPieces; }
+	void CreateStartingPieces();
 
 	void LevelLost();
 
@@ -40,8 +41,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<class UMovePiece*> StaringPieces;
-
-	void CreateStartingPieces();
 
 private:
 	void UnlockLevel();

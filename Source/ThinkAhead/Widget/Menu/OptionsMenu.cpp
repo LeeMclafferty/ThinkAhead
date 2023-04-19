@@ -114,3 +114,13 @@ void UOptionsMenu::SetCheckBoxes()
 	MusicCheckBox->SetCheckedState(Gameinst->IsMusicOn() ? ECheckBoxState::Checked : ECheckBoxState::Unchecked);
 	SoundCheckBox->SetCheckedState(Gameinst->IsSoundOn() ? ECheckBoxState::Checked : ECheckBoxState::Unchecked);
 }
+
+void UOptionsMenu::OnPressExit()
+{
+	auto Controller = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
+	if (!Controller)
+		return;
+
+	Controller->CreateExitPopup();
+}
