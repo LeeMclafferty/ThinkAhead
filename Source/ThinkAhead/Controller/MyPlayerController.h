@@ -33,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CreatePreviousWidget();
 
+	UFUNCTION(BlueprintPure)
+	class UPlayerHud* GetPlayerHud() { return PlayerHud;}
+
 protected:
 	virtual void SetupInputComponent() override;
 

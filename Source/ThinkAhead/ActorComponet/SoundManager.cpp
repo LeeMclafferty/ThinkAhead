@@ -43,6 +43,7 @@ void USoundManager::StopMusic()
 {
 	if (MusicAudioComp->IsPlaying())
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("USoundManager: Stop")));
 		MusicAudioComp->Stop();
 	}
 }

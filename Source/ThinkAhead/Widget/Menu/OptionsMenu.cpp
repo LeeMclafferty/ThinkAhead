@@ -57,7 +57,6 @@ void UOptionsMenu::ToggleMusic()
 
 	Gamemode->ToggleMusic();
 	bool bTurnMusicOn = GameInst->IsMusicOn();
-
 	if (!bTurnMusicOn)
 	{
 		Gamemode->GetSoundManager()->StopMusic();

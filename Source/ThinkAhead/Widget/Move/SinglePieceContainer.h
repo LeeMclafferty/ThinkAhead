@@ -22,6 +22,9 @@ public:
 	class UMovePiece* GetHeldPiece();
 	
 	bool bHasPiece;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class USizeBox* SizeBox;
 protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))

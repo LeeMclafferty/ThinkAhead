@@ -21,6 +21,9 @@ public:
 	class UMovesContainer* GetMoveFromPanel() { return MoveFromPanel; }
 	class UExecuteMoves* GetExecuteButton() { return ExecuteButton; }
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlayDragUITip();
+
 protected:
 	class ACameraPawn* PlayerPawn;
 

@@ -3,12 +3,27 @@
 
 #include "ThinkAhead/Widget/Move/SinglePieceContainer.h"
 #include "Components/Border.h"
+#include "Components/CanvasPanelSlot.h"
 
 #include "ThinkAhead/Widget/GamePiece/MovePiece.h"
 
 void USinglePieceContainer::NativeConstruct()
 {
-	
+	//Super::NativeConstruct();
+
+// 	UPanelSlot* RootSlot = Cast<UPanelSlot>(GetRootWidget()->Slot);
+// 	if (RootSlot)
+// 	{
+// 		// Set the size and alignment properties here.
+// 		// For example, if the root widget is inside a Canvas Panel:
+// 		UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(RootSlot);
+// 		if (CanvasSlot)
+// 		{
+// 			CanvasSlot->SetAutoSize(true); // Enable or disable auto size
+// 			CanvasSlot->SetSize(FVector2D(150.f, 150.f)); // Set explicit size
+// 			CanvasSlot->SetAlignment(FVector2D(0.0f, 0.0f)); // Set alignment
+// 		}
+// 	}
 }
 
 void USinglePieceContainer::HoldPiece(class UMovePiece* Held)

@@ -75,6 +75,7 @@ void AMyPlayerController::CreatePlayerHud()
 
 	FInputModeGameAndUI InputMode;
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	InputMode.SetHideCursorDuringCapture(false);
 	SetInputMode(InputMode);
 
 	SetupWidget(PlayerHudClass);

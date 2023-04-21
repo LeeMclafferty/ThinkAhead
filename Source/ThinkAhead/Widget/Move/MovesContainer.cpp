@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/PanelWidget.h"
 #include "Components/Border.h"
+#include "Components/Button.h"
 
 #include "ThinkAhead/Widget/GamePiece/MovePiece.h"
 #include "ThinkAhead/Widget/Move/SinglePieceContainer.h"
@@ -36,6 +37,7 @@ bool UMovesContainer::NativeOnDrop(const FGeometry& InGeomtry, const FDragDropEv
 	if (!MovePiecePayload)
 		return false;
 
+	MovePiecePayload->GetActionImage()->SetVisibility(ESlateVisibility::Visible);
 	return AddMovePiece(MovePiecePayload);
 }
 
@@ -82,7 +84,6 @@ void UMovesContainer::ConstructMoveFromContainer(class ALevelGamemode* GameMode)
 
 				MovesPanelBox->AddChild(CurrContainer);
 				CurrContainer->HoldPiece(GameMode->GetStartingPieces()[i]);
-
 			}
 		}
 		else
