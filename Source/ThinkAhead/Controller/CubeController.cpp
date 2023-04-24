@@ -36,3 +36,19 @@ void ACubeController::SetControlledCube(AControlledCube* NewCube)
 {
 	ControlledCube = NewCube;
 }
+
+void ACubeController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	if (InputComponent)
+	{
+		InputComponent->BindAction("OpenMenu", IE_Pressed, this, &ACubeController ::OpenGameSettingsMenu);
+	}
+}
+
+void ACubeController::OpenGameSettingsMenu()
+{
+	CreateGameSettingsMenu();
+}
+

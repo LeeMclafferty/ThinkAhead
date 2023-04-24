@@ -24,3 +24,19 @@ void AMenuController::BeginPlay()
 	CreateMainMenu();
 }
 
+void AMenuController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	if (InputComponent)
+	{
+		InputComponent->BindAction("OpenMenu", IE_Pressed, this, &AMenuController::OpenMainSettingsMenu);
+	}
+}
+
+void AMenuController::OpenMainSettingsMenu()
+{
+	CreateMainSettingsMenu();
+}
+
+

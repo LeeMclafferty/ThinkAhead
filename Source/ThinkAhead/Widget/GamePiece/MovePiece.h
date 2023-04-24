@@ -22,21 +22,20 @@ public:
 
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 	void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
-
-	//virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
+	FReply 	NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 
 	UFUNCTION(BlueprintCallable, Category="CubeControl")
 	virtual void Move();
 
 	bool HasActivated();
 
-	class UButton* GetActionImage() { return ActionImg; }
+	class UImage* GetActionImage() { return ActionImg; }
 
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UButton* ActionImg;
+	class UImage* ActionImg;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class USizeBox* SizeBox;
 
@@ -57,4 +56,6 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void PlayDragtip();
+	void SetHoveredImage();
+	void SetUnHoveredImage();
 };

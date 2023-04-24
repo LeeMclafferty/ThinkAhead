@@ -1,0 +1,31 @@
+Level 1
+North
+
+Level 2
+South West
+
+Level 3
+West South West North
+or
+West North West South
+
+Level 4
+West East
+
+Level 5
+North West West South East East North
+
+Level 6
+West West
+
+Level 7
+East north East
+
+Level 8
+East East North South East North
+
+Level 9
+South West North East North West West North
+
+Level 10
+west South North West South South East North West

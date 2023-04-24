@@ -19,6 +19,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadGame();
 
+	UFUNCTION(BlueprintCallable)
 	bool IsLevelUnlocked(FName LevelName);
 	void UnlockLevel(FName LevelName);
 

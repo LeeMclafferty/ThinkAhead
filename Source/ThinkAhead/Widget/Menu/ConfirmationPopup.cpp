@@ -14,11 +14,11 @@ void UConfirmationPopup::NativeConstruct()
 
 void UConfirmationPopup::GoBack()
 {
-	auto Controller = Cast<AMenuController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	auto Controller = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
 	if (!Controller)
 		return;
 
-	Controller->CreateMainMenu();
+	Controller->CreatePreviousWidget();
 	
 }

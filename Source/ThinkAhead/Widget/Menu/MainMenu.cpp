@@ -28,7 +28,7 @@ void UMainMenu::OnPressOptions()
 	if (!Controller)
 		return;
 
-	Controller->CreateSettingsMenu();
+	Controller->CreateMainSettingsMenu();
 }
 
 void UMainMenu::OnPressExit()

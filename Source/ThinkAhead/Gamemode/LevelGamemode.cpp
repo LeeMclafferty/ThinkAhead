@@ -18,7 +18,6 @@ void ALevelGamemode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UnlockLevel();
 	CreateStartingPieces();
 }
 
@@ -52,6 +51,6 @@ void ALevelGamemode::UnlockLevel()
 	if (!GameInst)
 		return;
 
-	GameInst->UnlockLevel(LevelName);
+	GameInst->UnlockLevel(NextLevelName);
 	GameInst->SaveGame();
 }

@@ -27,6 +27,10 @@ public:
 
 	void LevelLost();
 
+	UFUNCTION(BlueprintPure)
+	FName GetNextLevelName() { return NextLevelName; }
+	void UnlockLevel();
+
 protected:
 	virtual void BeginPlay() override;
 	// Total Number of moves that can be executed for a level.
@@ -42,7 +46,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TArray<class UMovePiece*> StaringPieces;
 
-private:
-	void UnlockLevel();
+	UPROPERTY(EditDefaultsOnly, Category = "Initialization|LevelDetails")
+	FName NextLevelName;
+
+
 	
 };

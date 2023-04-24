@@ -89,7 +89,11 @@ void AMovementGrid::GenerateGrid()
 
 void AMovementGrid::DestroyGrid()
 {
+	if (Tiles.IsEmpty())
+		return;
+
 	bHasGridMade = false;
+
 
 	for (int x = 0; x < Tiles.Num(); x++)
 	{

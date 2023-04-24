@@ -24,7 +24,9 @@ public:
 	void SetControlledCube(class AControlledCube* NewCube);
 
 protected:
-
+	virtual void SetupInputComponent() override;
+	UFUNCTION()
+	void OpenGameSettingsMenu();
 
 private:
 	class UExecuteMoves* ExecuteButton;

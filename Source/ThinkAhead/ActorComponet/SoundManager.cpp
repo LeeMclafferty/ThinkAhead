@@ -27,23 +27,18 @@ void USoundManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 }
 
 void USoundManager::StopAmbientSounds()
-{
-		
+{	
 	if (NatureAudioComp->IsPlaying() && StreamAudioComp->IsPlaying())
 	{
 		NatureAudioComp->Stop();
 		StreamAudioComp->Stop();
 	}
-	
-	
-		
 }
 
 void USoundManager::StopMusic()
 {
 	if (MusicAudioComp->IsPlaying())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("USoundManager: Stop")));
 		MusicAudioComp->Stop();
 	}
 }

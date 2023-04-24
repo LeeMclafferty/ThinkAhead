@@ -20,10 +20,10 @@ void AMyPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	if (InputComponent)
-	{
-		InputComponent->BindAction("OpenMenu", IE_Pressed, this, &AMyPlayerController::OpenSettingsMenu);
-	}
+// 	if (InputComponent)
+// 	{
+// 		InputComponent->BindAction("OpenMenu", IE_Pressed, this, &AMyPlayerController::OpenMainSettingsMenu);
+// 	}
 }
 
 void AMyPlayerController::SetupWidget(TSubclassOf<UUserWidget> WidgetClass)
@@ -81,14 +81,6 @@ void AMyPlayerController::CreatePlayerHud()
 	SetupWidget(PlayerHudClass);
 	PlayerHud = Cast<UPlayerHud>(CurrentWidget);
 	PreviousWidgetClass = PlayerHudClass;
-
-// 	if (PreviousWidgetClass)
-// 		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("CreatePlayerHud")));
-}
-
-void AMyPlayerController::OpenSettingsMenu()
-{
-	CreateSettingsMenu();
 }
 
 void AMyPlayerController::CreateMainMenu()
@@ -107,9 +99,14 @@ void AMyPlayerController::CreateExitPopup()
 	SetupWidget(ExitPopupClass);
 }
 
-void AMyPlayerController::CreateSettingsMenu()
+void AMyPlayerController::CreateMainSettingsMenu()
 {
-	SetupWidget(SettingsMenuClass);
+	SetupWidget(SettingsMainMenuClass);
+}
+
+void AMyPlayerController::CreateGameSettingsMenu()
+{
+	SetupWidget(SettingsGameClass);
 }
 
 void AMyPlayerController::CreatePreviousWidget()

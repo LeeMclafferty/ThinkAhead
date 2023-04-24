@@ -5,9 +5,11 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 
+#include "ThinkAhead/Gamemode/LevelGamemode.h"
+
 void UWinScreen::NativeConstruct()
 {
-
+	UnlockNextLevel();
 }
 
 void UWinScreen::PlayWinSound()
@@ -22,4 +24,14 @@ void UWinScreen::StopWinSound()
 {
 	if (WinAudioComp->IsPlaying())
 		WinAudioComp->Stop();
+}
+
+void UWinScreen::UnlockNextLevel()
+{
+	auto Gamemode = Cast<ALevelGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (!Gamemode)
+		return;
+
+	Gamemode->UnlockLevel();
 }

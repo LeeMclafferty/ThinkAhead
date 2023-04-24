@@ -6,7 +6,7 @@
 #include "Blueprint/DragDropOperation.h"
 #include "Input/Reply.h"
 #include "Components/PanelWidget.h"
-#include "Components/Button.h"
+#include "Components/Image.h"
 #include "Components/SizeBox.h"
 
 #include "ThinkAhead/Controller/CubeController.h"
@@ -36,16 +36,14 @@ void UMovePiece::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 	Owner->bHasPiece = false;
 	OutOperation = DragDropOp;
 	ActionImg->SetVisibility(ESlateVisibility::Hidden);
-
-	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Disabled: %i"), ActionImg->bIsEnabled));
 }
 
 void UMovePiece::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Drag Canceled"));
 	auto Owner = GetOwningContainer();
 	Owner->bHasPiece = true;
 	ActionImg->SetVisibility(ESlateVisibility::Visible);
-	ActionImg->SetIsEnabled(true);
 }
 
 FReply UMovePiece::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -63,12 +61,20 @@ FReply UMovePiece::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FP
 
 void UMovePiece::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	ActionImg->SetIsEnabled(false);
+	SetHoveredImage();
 }
 
 void UMovePiece::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
-	ActionImg->SetIsEnabled(true);
+	SetUnHoveredImage();
+}
+
+FReply UMovePiece::NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	FReply Reply = Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+	PlayDragtip();
+
+	return Reply;
 }
 
 void UMovePiece::Move()
@@ -111,5 +117,17 @@ void UMovePiece::PlayDragtip()
 		return;
 
 	Controller->GetPlayerHud()->PlayDragUITip();
+}
+
+void UMovePiece::SetHoveredImage()
+{
+	if (GrabbedImage)
+		ActionImg->SetBrushFromTexture(GrabbedImage);
+}
+
+void UMovePiece::SetUnHoveredImage()
+{
+	if (UngrabbedImage)
+		ActionImg->SetBrushFromTexture(UngrabbedImage);
 }
 

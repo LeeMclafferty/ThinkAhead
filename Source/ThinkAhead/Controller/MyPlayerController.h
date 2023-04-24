@@ -29,7 +29,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CreateExitPopup();
 	UFUNCTION(BlueprintCallable)
-	void CreateSettingsMenu();
+	void CreateMainSettingsMenu();
+	UFUNCTION(BlueprintCallable)
+	void CreateGameSettingsMenu();
 	UFUNCTION(BlueprintCallable)
 	void CreatePreviousWidget();
 
@@ -63,7 +65,10 @@ protected:
 	TSubclassOf<class UUserWidget> LevelSelectClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Initialize|WidgetClass")
-	TSubclassOf<class UUserWidget> SettingsMenuClass;
+	TSubclassOf<class UUserWidget> SettingsMainMenuClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Initialize|WidgetClass")
+	TSubclassOf<class UUserWidget> SettingsGameClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Initialize|WidgetClass")
 	TSubclassOf<class UUserWidget> ExitPopupClass;
@@ -72,8 +77,7 @@ protected:
 
 	void CreatePlayerHud();
 	
-	UFUNCTION()
-	void OpenSettingsMenu();
+
 private:
 	UUserWidget* CurrentWidget;
 	

@@ -30,4 +30,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Sound")
 	class USoundCue* WinSound;
 	class UAudioComponent* WinAudioComp;
+
+	void UnlockNextLevel();
 };

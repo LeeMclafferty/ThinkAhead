@@ -40,7 +40,7 @@ void AControlledCube::Tick(float DeltaTime)
 	Params.AddIgnoredActor(this);
 	FHitResult OutHit;
 
-	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 5.f, 0, 1.f);
+	//DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 5.f, 0, 1.f);
 
 	if (bIsGameStarted)
 	{
