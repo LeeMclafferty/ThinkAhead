@@ -49,6 +49,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Initialization|LevelDetails")
 	FName NextLevelName;
 
+	void ClearStartingPieces();
+
 
 	
 };

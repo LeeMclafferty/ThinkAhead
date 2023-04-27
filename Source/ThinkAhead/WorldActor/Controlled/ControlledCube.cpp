@@ -155,7 +155,6 @@ void AControlledCube::CheckState()
 		
 		if (SimpleMovementComponent->GetMovesToMake().IsEmpty())
 			return;
-
 		SimpleMovementComponent->GetMovesToMake()[0]->Move();
 	}
 	else if (GetCubeState() == ECubeState::ECS_Idle)
@@ -184,11 +183,19 @@ void AControlledCube::CheckState()
 
 }
 
+void AControlledCube::StartGame()
+{
+	bIsGameStarted = true;
+
+	if (GetCubeState() == ECubeState::ECS_None)
+		SetCubeState(ECubeState::ECS_Idle);
+}
+
 ECubeState AControlledCube::GetCubeState()
 {
 	if (!StateManager)
 		return ECubeState::ECS_None;
-
+	
 	return StateManager->GetState();
 }
 

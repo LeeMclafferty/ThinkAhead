@@ -31,21 +31,23 @@ void UExecuteMoves::Execute()
 
 	if (!ContainingBox)
 		return;
-	
+
 	if (ContainingBox->GetChildrenCount() < 1)
+	{
 		return;
+	}
 
 	for (int i = 0; i < ContainingBox->GetChildrenCount(); i++)
 	{
 		USinglePieceContainer* SingleContainer = Cast<USinglePieceContainer>(ContainingBox->GetChildAt(i));
 		if (!SingleContainer || !PlayerController)
 			break;
-
 		UMovePiece* CurrentMove = SingleContainer->GetHeldPiece();
 
 		if (!CurrentMove)
 			break;
-
+		
+		OnExecute.Broadcast();
 		if (PlayerController->GetControlledCube())
 		{
 			PlayerController->GetControlledCube()->GetSimpleMovementComp()->AddMoveToMake(CurrentMove);
@@ -53,7 +55,4 @@ void UExecuteMoves::Execute()
 
 		PlayerController->GetControlledCube()->GetSimpleMovementComp()->SetCurrentMove(PlayerController->GetControlledCube()->GetSimpleMovementComp()->GetMovesToMake()[0]);
 	}
-
-	OnExecute.Broadcast();
-
 }

@@ -16,7 +16,7 @@ void UMoveNorth::NativeConstruct()
 void UMoveNorth::Move()
 {
 	Super::Move();
-
+	
 	if (!PlayerController || !PlayerCube)
 		return;
 

@@ -40,7 +40,6 @@ void UMovePiece::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 
 void UMovePiece::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Drag Canceled"));
 	auto Owner = GetOwningContainer();
 	Owner->bHasPiece = true;
 	ActionImg->SetVisibility(ESlateVisibility::Visible);

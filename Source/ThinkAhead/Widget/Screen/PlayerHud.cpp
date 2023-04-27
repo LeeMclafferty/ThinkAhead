@@ -20,12 +20,11 @@ void UPlayerHud::NativeConstruct()
 	{
 		PlayerPawn = PP;
 	}
-
+	PopulateGamePieces();
+	SetControllerExecuteButton();
 	ExecuteButton = MoveToPanel->GetExecuteButton();
 }
 
-
- 
 void UPlayerHud::ResartLevel()
 {
 	auto Gamemode = Cast<ALevelGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -42,4 +41,24 @@ void UPlayerHud::SwapPerspective()
 		return;
 
 	PlayerPawn->ChangePerspctive();
+}
+
+void UPlayerHud::PopulateGamePieces()
+{
+	auto Gamemode = Cast<ALevelGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (!Gamemode)
+		return;
+
+	Gamemode->CreateStartingPieces();
+}
+
+void UPlayerHud::SetControllerExecuteButton()
+{
+	auto Controller = Cast<ACubeController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
+	if (!Controller)
+		return;
+
+	Controller->SetExecuteButton(GetExecuteButton());
 }

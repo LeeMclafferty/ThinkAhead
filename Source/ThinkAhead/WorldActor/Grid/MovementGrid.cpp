@@ -94,7 +94,6 @@ void AMovementGrid::DestroyGrid()
 
 	bHasGridMade = false;
 
-
 	for (int x = 0; x < Tiles.Num(); x++)
 	{
 		if(Tiles[x])

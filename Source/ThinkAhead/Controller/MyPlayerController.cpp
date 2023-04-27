@@ -70,19 +70,6 @@ void AMyPlayerController::ClearViewPort()
 		CurrentWidget->RemoveFromParent();
 }
 
-void AMyPlayerController::CreatePlayerHud()
-{
-
-	FInputModeGameAndUI InputMode;
-	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	InputMode.SetHideCursorDuringCapture(false);
-	SetInputMode(InputMode);
-
-	SetupWidget(PlayerHudClass);
-	PlayerHud = Cast<UPlayerHud>(CurrentWidget);
-	PreviousWidgetClass = PlayerHudClass;
-}
-
 void AMyPlayerController::CreateMainMenu()
 {
 	SetupWidget(MainMenuClass);

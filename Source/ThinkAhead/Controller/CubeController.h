@@ -22,6 +22,10 @@ public:
 	class AControlledCube* GetControlledCube() { return ControlledCube; }
 
 	void SetControlledCube(class AControlledCube* NewCube);
+	void SetExecuteButton(class UExecuteMoves* NewButton) { ExecuteButton = NewButton; }
+
+	UFUNCTION(BlueprintCallable)
+	void CreatePlayerHud();
 
 protected:
 	virtual void SetupInputComponent() override;

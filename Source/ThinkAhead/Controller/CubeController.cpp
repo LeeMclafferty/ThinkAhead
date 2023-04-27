@@ -21,15 +21,6 @@ void ACubeController::BeginPlay()
 	Super::BeginPlay();
 	
 	CreatePlayerHud();
-
-	if (PlayerHud)
-	{
-		ExecuteButton = PlayerHud->GetExecuteButton();
-	}
-
-	if(ControlledCube)
-		ExecuteButton->OnExecute.AddDynamic(ControlledCube, &AControlledCube::StartGame);
-
 }
 
 void ACubeController::SetControlledCube(AControlledCube* NewCube)
@@ -52,3 +43,23 @@ void ACubeController::OpenGameSettingsMenu()
 	CreateGameSettingsMenu();
 }
 
+void ACubeController::CreatePlayerHud()
+{
+
+	FInputModeGameAndUI InputMode;
+	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	InputMode.SetHideCursorDuringCapture(false);
+	SetInputMode(InputMode);
+
+	SetupWidget(PlayerHudClass);
+	PlayerHud = Cast<UPlayerHud>(CurrentWidget);
+	PreviousWidgetClass = PlayerHudClass;
+
+	if (PlayerHud)
+	{
+		ExecuteButton = PlayerHud->GetExecuteButton();
+
+		if (ControlledCube)
+			ExecuteButton->OnExecute.AddDynamic(ControlledCube, &AControlledCube::StartGame);
+	}
+}

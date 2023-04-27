@@ -69,6 +69,7 @@ void USimpleMovement::AddMoveToMake(class UMovePiece* AddMove)
 {
 	if (AddMove)
 		MovesToMake.Add(AddMove);
+
 }
 
 void USimpleMovement::SetCurrentMove(class UMovePiece* NewCurrent)

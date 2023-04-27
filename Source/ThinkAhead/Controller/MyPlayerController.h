@@ -74,11 +74,8 @@ protected:
 	TSubclassOf<class UUserWidget> ExitPopupClass;
 
 	TSubclassOf<class UUserWidget> PreviousWidgetClass;
-
-	void CreatePlayerHud();
 	
-
-private:
 	UUserWidget* CurrentWidget;
+
 	
 };

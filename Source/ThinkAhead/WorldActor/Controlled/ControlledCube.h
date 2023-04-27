@@ -21,7 +21,7 @@ public:
 	UFUNCTION()
 	void CheckState();
 	UFUNCTION()
-	void StartGame() { bIsGameStarted = true; }
+	void StartGame();
 
 	FVector TraceCheckDir;
 

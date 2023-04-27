@@ -18,12 +18,20 @@ void ALevelGamemode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CreateStartingPieces();
+	//CreateStartingPieces();
+}
+
+void ALevelGamemode::ClearStartingPieces()
+{
+	if (!StartingPieceClasses.IsEmpty())
+		StaringPieces.Empty();
 }
 
 void ALevelGamemode::CreateStartingPieces()
 {
 	UMovePiece* Current = nullptr;
+
+	ClearStartingPieces();
 
 	for (auto PieceClass : StartingPieceClasses)
 	{

@@ -44,5 +44,6 @@ protected:
 	void SwapPerspective();
 
 private:
-	
+	void PopulateGamePieces();
+	void SetControllerExecuteButton();
 };
